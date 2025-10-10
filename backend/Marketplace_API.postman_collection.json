@@ -124,18 +124,49 @@
           "response": []
         },
         {
-          "name": "Create Product",
+          "name": "Create Product (with image)",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Laptop\",\n  \"description\": \"High performance laptop\",\n  \"price\": 1299.99,\n  \"discountPrice\": 999.99,\n  \"stock\": 50,\n  \"category\": \"Electronics\",\n  \"image\": \"laptop.jpg\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Laptop",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "High performance laptop",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1299.99",
+                  "type": "text"
+                },
+                {
+                  "key": "discountPrice",
+                  "value": "999.99",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "50",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Electronics",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
             },
             "url": {
               "raw": "{{baseUrl}}/products",
@@ -146,18 +177,49 @@
           "response": []
         },
         {
-          "name": "Update Product",
+          "name": "Update Product (with image)",
           "request": {
             "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Gaming Laptop\",\n  \"description\": \"High performance gaming laptop\",\n  \"price\": 1599.99,\n  \"discountPrice\": 1299.99,\n  \"stock\": 30,\n  \"category\": \"Gaming\",\n  \"image\": \"gaming-laptop.jpg\"\n}"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Gaming Laptop",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "High performance gaming laptop",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "1599.99",
+                  "type": "text"
+                },
+                {
+                  "key": "discountPrice",
+                  "value": "1299.99",
+                  "type": "text"
+                },
+                {
+                  "key": "stock",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Gaming",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
             },
             "url": {
               "raw": "{{baseUrl}}/products/1",

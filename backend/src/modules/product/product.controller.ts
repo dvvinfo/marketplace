@@ -9,7 +9,11 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerConfig } from '../../config/multer.config';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/createProduct.dto';
@@ -33,17 +37,31 @@ export class ProductController {
 
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
-  async createProduct(@Body() body: CreateProductDto) {
-    return await this.productService.createProduct(body);
+  @UseInterceptors(FileInterceptor('image', multerConfig))
+  async createProduct(
+    @Body() body: CreateProductDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    const productData: CreateProductDto = {
+      ...body,
+      ...(file && { image: file.filename }),
+    };
+    return await this.productService.createProduct(productData);
   }
 
   @Put('/:id')
   @HttpCode(HttpStatus.OK)
+  @UseInterceptors(FileInterceptor('image', multerConfig))
   async updateProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateProductDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    await this.productService.updateProduct(id, body);
+    const productData: UpdateProductDto = {
+      ...body,
+      ...(file && { image: file.filename }),
+    };
+    await this.productService.updateProduct(id, productData);
     return { message: 'Product updated successfully' };
   }
 
