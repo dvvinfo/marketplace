@@ -2,17 +2,17 @@ import {
   Controller,
   Get,
   Post,
-  Req,
-  Res,
   Put,
   Delete,
   Param,
   ParseIntPipe,
   Body,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { Response, Request } from 'express';
 
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Controller('users')
@@ -20,47 +20,36 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('/')
-  async getAllUsers(@Res() res: Response) {
-    const users = await this.userService.getAllUsers();
-
-    return res.send({
-      status: 'ok',
-      data: users,
-    });
+  @HttpCode(HttpStatus.OK)
+  async getAllUsers() {
+    return await this.userService.getAllUsers();
   }
 
   @Get('/:id')
-  async getUser(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
-    const userData = await this.userService.getUserData(id);
-
-    return res.send({
-      status: 'ok',
-      data: userData,
-    });
+  @HttpCode(HttpStatus.OK)
+  async getUser(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.getUserData(id);
   }
 
   @Post('/')
-  async createUser(@Req() req: Request, @Res() res: Response) {
-    await this.userService.createUser(req.body);
-    return res.send({ status: 'ok' });
+  @HttpCode(HttpStatus.CREATED)
+  async createUser(@Body() body: CreateUserDto) {
+    return await this.userService.createUser(body);
   }
 
   @Put('/:id')
+  @HttpCode(HttpStatus.OK)
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateUserDto,
-    @Res() res: Response,
   ) {
     await this.userService.updateUserData(id, body);
-    return res.send({ status: 'ok' });
+    return { message: 'User updated successfully' };
   }
 
   @Delete('/:id')
-  async deleteUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Res() res: Response,
-  ) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
     await this.userService.deleteUser(id);
-    return res.send({ status: 'ok' });
   }
 }
