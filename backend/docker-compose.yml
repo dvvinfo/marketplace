@@ -1,0 +1,39 @@
+
+services:
+  marketplace_postgres:
+    container_name: marketplace_postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: marketplace
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/var/www/marketplace/docker-volumes/postgres
+    ports:
+      - 127.0.0.1:5433:5432
+    networks:
+      - marketplace
+    restart: unless-stopped
+
+  marketplace_pgadmin:
+    container_name: marketplace_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: marketplace@admin.com
+      PGADMIN_DEFAULT_PASSWORD: marketplace
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/www/marketplace/docker-volumes/pgadmin
+    ports:
+      - 127.0.0.1:5050:80
+    networks:
+      - marketplace
+    restart: unless-stopped
+
+networks:
+  marketplace:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
