@@ -4,8 +4,9 @@ import { ConfigModule } from './config.module';
 import { TypeOrmModule } from '@db/typeorm.module';
 import { UserModule } from '@modules/user/user.module';
 import { ProductModule } from '@modules/product/product.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule, UserModule, ProductModule],
+  imports: [ConfigModule, TypeOrmModule, UserModule, ProductModule, AuthModule],
 })
 export class AppModule {}
