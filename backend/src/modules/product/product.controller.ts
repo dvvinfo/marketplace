@@ -6,10 +6,10 @@ import {
   Delete,
   Param,
   Body,
-  Res,
   ParseIntPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { Response } from 'express';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/createProduct.dto';
@@ -20,56 +20,36 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('/')
-  async getAllProducts(@Res() res: Response) {
-    const products = await this.productService.getAllProducts();
-
-    return res.send({
-      status: 'ok',
-      data: products,
-    });
+  @HttpCode(HttpStatus.OK)
+  async getAllProducts() {
+    return await this.productService.getAllProducts();
   }
 
   @Get('/:id')
-  async getProduct(
-    @Param('id', ParseIntPipe) id: number,
-    @Res() res: Response,
-  ) {
-    const product = await this.productService.getProductById(id);
-
-    return res.send({
-      status: 'ok',
-      data: product,
-    });
+  @HttpCode(HttpStatus.OK)
+  async getProduct(@Param('id', ParseIntPipe) id: number) {
+    return await this.productService.getProductById(id);
   }
 
   @Post('/')
-  async createProduct(@Body() body: CreateProductDto, @Res() res: Response) {
-    const product = await this.productService.createProduct(body);
-
-    return res.send({
-      status: 'ok',
-      data: product,
-    });
+  @HttpCode(HttpStatus.CREATED)
+  async createProduct(@Body() body: CreateProductDto) {
+    return await this.productService.createProduct(body);
   }
 
   @Put('/:id')
+  @HttpCode(HttpStatus.OK)
   async updateProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateProductDto,
-    @Res() res: Response,
   ) {
     await this.productService.updateProduct(id, body);
-
-    return res.send({ status: 'ok' });
+    return { message: 'Product updated successfully' };
   }
 
   @Delete('/:id')
-  async deleteProduct(
-    @Param('id', ParseIntPipe) id: number,
-    @Res() res: Response,
-  ) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteProduct(@Param('id', ParseIntPipe) id: number) {
     await this.productService.deleteProduct(id);
-
-    return res.send({ status: 'ok' });
   }
 }
