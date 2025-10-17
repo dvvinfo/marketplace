@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import { Category } from '@modules/category/category.entity';
 
 @Entity('products')
 export class Product {
@@ -32,8 +36,12 @@ export class Product {
   @Column({ name: 'stock', type: 'int', default: 0 })
   stock: number;
 
-  @Column({ name: 'category', type: 'varchar', nullable: true })
-  category: string | null;
+  @Column({ name: 'category_id', type: 'int', nullable: true })
+  categoryId: number | null;
+
+  @ManyToOne(() => Category, { nullable: true })
+  @JoinColumn({ name: 'category_id' })
+  category: Category | null;
 
   @Column({ name: 'image', type: 'varchar', nullable: true })
   image: string | null;

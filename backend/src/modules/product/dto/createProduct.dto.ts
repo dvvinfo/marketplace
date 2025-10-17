@@ -33,9 +33,10 @@ export class CreateProductDto {
   @IsOptional()
   stock?: number;
 
-  @IsString()
+  @Type(() => Number)
+  @IsNumber()
   @IsOptional()
-  category?: string;
+  categoryId?: number;
 
   @IsString()
   @IsOptional()

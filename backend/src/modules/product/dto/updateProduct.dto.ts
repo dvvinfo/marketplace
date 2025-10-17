@@ -5,6 +5,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UpdateProductDto {
   @IsString()
@@ -16,24 +17,28 @@ export class UpdateProductDto {
   @IsOptional()
   description?: string;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   @IsOptional()
   price?: number;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   @IsOptional()
   discountPrice?: number;
 
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   @IsOptional()
   stock?: number;
 
-  @IsString()
+  @Type(() => Number)
+  @IsNumber()
   @IsOptional()
-  category?: string;
+  categoryId?: number;
 
   @IsString()
   @IsOptional()
