@@ -2,7 +2,7 @@
   "info": {
     "name": "Marketplace API",
     "_postman_id": "marketplace-api-collection",
-    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address, PromoCode и ProductView endpoints. Включает систему авторизации с JWT токенами.",
+    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address, PromoCode, ProductView и Admin endpoints. Включает систему авторизации с JWT токенами и роли.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1364,6 +1364,110 @@
                   "key": "limit",
                   "value": "10",
                   "description": "Number of products to return"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "dashboard"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/1/role",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", "1", "role"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recent Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/orders/recent?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "orders", "recent"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Promo Codes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/promo-codes/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "promo-codes", "active"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Low Stock Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/products/low-stock?threshold=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "products", "low-stock"],
+              "query": [
+                {
+                  "key": "threshold",
+                  "value": "10"
                 }
               ]
             }
