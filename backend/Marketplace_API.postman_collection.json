@@ -2,7 +2,7 @@
   "info": {
     "name": "Marketplace API",
     "_postman_id": "marketplace-api-collection",
-    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address, PromoCode, ProductView и Admin endpoints. Включает систему авторизации с JWT токенами и роли.",
+    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address, PromoCode, ProductView, Admin и Analytics endpoints. Включает систему авторизации с JWT токенами и роли.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1468,6 +1468,193 @@
                 {
                   "key": "threshold",
                   "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Get Sales Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/overview?startDate=2025-01-01&endDate=2025-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "overview"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-01-01",
+                  "description": "Optional start date (YYYY-MM-DD)"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-12-31",
+                  "description": "Optional end date (YYYY-MM-DD)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Selling Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/top-selling-products?limit=10&startDate=2025-01-01&endDate=2025-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "top-selling-products"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2025-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-12-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sales By Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/sales-by-category?startDate=2025-01-01&endDate=2025-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "sales-by-category"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-12-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Revenue By Period (Day)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/revenue-by-period?period=day&startDate=2025-01-01&endDate=2025-01-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "revenue-by-period"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "day",
+                  "description": "day, week, or month"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2025-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Revenue By Period (Month)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/revenue-by-period?period=month&startDate=2025-01-01&endDate=2025-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "revenue-by-period"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "month"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2025-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-12-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer Lifetime Value",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/customer-lifetime-value?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "customer-lifetime-value"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Status Distribution",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/order-status-distribution",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "order-status-distribution"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Revenue Growth (Month)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/revenue-growth?period=month",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "revenue-growth"],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "month",
+                  "description": "day, week, or month"
                 }
               ]
             }

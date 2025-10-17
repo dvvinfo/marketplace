@@ -14,6 +14,7 @@ import { AddressModule } from '@modules/address/address.module';
 import { PromoCodeModule } from '@modules/promo-code/promo-code.module';
 import { ProductViewModule } from '@modules/product-view/product-view.module';
 import { AdminModule } from '@modules/admin/admin.module';
+import { AnalyticsModule } from '@modules/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AdminModule } from '@modules/admin/admin.module';
     PromoCodeModule,
     ProductViewModule,
     AdminModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
