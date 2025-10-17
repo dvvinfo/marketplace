@@ -2,7 +2,7 @@
   "info": {
     "name": "Marketplace API",
     "_postman_id": "marketplace-api-collection",
-    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address и PromoCode endpoints. Включает систему авторизации с JWT токенами.",
+    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address, PromoCode и ProductView endpoints. Включает систему авторизации с JWT токенами.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1261,6 +1261,111 @@
               "raw": "{{baseUrl}}/promo-codes/1",
               "host": ["{{baseUrl}}"],
               "path": ["promo-codes", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product Views",
+      "item": [
+        {
+          "name": "Record View",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"userId\": 1,\n  \"ipAddress\": \"192.168.1.1\",\n  \"userAgent\": \"Mozilla/5.0\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/product-views",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-views"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recently Viewed",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-views/user/1/recent?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-views", "user", "1", "recent"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of products to return"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product View Count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-views/product/1/count",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-views", "product", "1", "count"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trending Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-views/trending?hours=24&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-views", "trending"],
+              "query": [
+                {
+                  "key": "hours",
+                  "value": "24",
+                  "description": "Time period in hours"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of products to return"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Popular Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/product-views/popular?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["product-views", "popular"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of products to return"
+                }
+              ]
             }
           },
           "response": []

@@ -12,6 +12,7 @@ import { ReviewModule } from '@modules/review/review.module';
 import { CategoryModule } from '@modules/category/category.module';
 import { AddressModule } from '@modules/address/address.module';
 import { PromoCodeModule } from '@modules/promo-code/promo-code.module';
+import { ProductViewModule } from '@modules/product-view/product-view.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PromoCodeModule } from '@modules/promo-code/promo-code.module';
     CategoryModule,
     AddressModule,
     PromoCodeModule,
+    ProductViewModule,
   ],
 })
 export class AppModule {}
