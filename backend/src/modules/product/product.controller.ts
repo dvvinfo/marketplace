@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   Body,
+  Query,
   ParseIntPipe,
   HttpCode,
   HttpStatus,
@@ -18,6 +19,7 @@ import { multerConfig } from '../../config/multer.config';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
+import { ProductFilterDto } from './dto/filterProduct.dto';
 
 @Controller('products')
 export class ProductController {
@@ -27,6 +29,12 @@ export class ProductController {
   @HttpCode(HttpStatus.OK)
   async getAllProducts() {
     return await this.productService.getAllProducts();
+  }
+
+  @Get('/search')
+  @HttpCode(HttpStatus.OK)
+  async searchProducts(@Query() filters: ProductFilterDto) {
+    return await this.productService.searchProducts(filters);
   }
 
   @Get('/:id')

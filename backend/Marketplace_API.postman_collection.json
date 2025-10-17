@@ -192,6 +192,71 @@
           "response": []
         },
         {
+          "name": "Search & Filter Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/search?search=laptop&categoryId=1&minPrice=100&maxPrice=2000&inStock=true&onSale=false&sortBy=price&sortOrder=ASC&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "laptop",
+                  "description": "Search in title and description"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "1",
+                  "description": "Filter by category ID"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "100",
+                  "description": "Minimum price"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "2000",
+                  "description": "Maximum price"
+                },
+                {
+                  "key": "inStock",
+                  "value": "true",
+                  "description": "Only products in stock"
+                },
+                {
+                  "key": "onSale",
+                  "value": "false",
+                  "description": "Only products with discount"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "price",
+                  "description": "Sort by: price, title, createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "ASC",
+                  "description": "Sort order: ASC, DESC"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get Product By Id",
           "request": {
             "method": "GET",
