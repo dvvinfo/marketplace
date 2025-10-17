@@ -9,10 +9,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ProductViewService } from './product-view.service';
 import { RecordViewDto } from './dto/recordView.dto';
 
+@ApiTags('Product Views')
 @Controller('product-views')
 export class ProductViewController {
   constructor(private readonly productViewService: ProductViewService) {}

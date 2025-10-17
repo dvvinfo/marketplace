@@ -11,11 +11,13 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
 
+@ApiTags('Addresses')
 @Controller('addresses')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}

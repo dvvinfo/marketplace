@@ -14,6 +14,7 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { multerConfig } from '../../config/multer.config';
 
 import { ProductService } from './product.service';
@@ -21,18 +22,21 @@ import { CreateProductDto } from './dto/createProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
 import { ProductFilterDto } from './dto/filterProduct.dto';
 
+@ApiTags('Products')
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('/')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get all products' })
   async getAllProducts() {
     return await this.productService.getAllProducts();
   }
 
   @Get('/search')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Search products with filters' })
   async searchProducts(@Query() filters: ProductFilterDto) {
     return await this.productService.searchProducts(filters);
   }

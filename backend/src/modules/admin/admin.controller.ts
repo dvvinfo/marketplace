@@ -10,12 +10,15 @@ import {
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
 import { AdminService } from './admin.service';
 import { AdminGuard } from './guards/admin.guard';
 import { Roles } from './decorators/roles.decorator';
 import { UserRole } from '../user/types';
 
+@ApiTags('Admin')
+@ApiBearerAuth('JWT-auth')
 @Controller('admin')
 @UseGuards(AdminGuard)
 @Roles(UserRole.ADMIN)
@@ -24,6 +27,7 @@ export class AdminController {
 
   @Get('/dashboard')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get admin dashboard statistics (Admin only)' })
   async getDashboard() {
     return await this.adminService.getDashboardStats();
   }

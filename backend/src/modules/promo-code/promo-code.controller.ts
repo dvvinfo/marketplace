@@ -10,12 +10,14 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { PromoCodeService } from './promo-code.service';
 import { CreatePromoCodeDto } from './dto/createPromoCode.dto';
 import { UpdatePromoCodeDto } from './dto/updatePromoCode.dto';
 import { ValidatePromoCodeDto } from './dto/validatePromoCode.dto';
 
+@ApiTags('Promo Codes')
 @Controller('promo-codes')
 export class PromoCodeController {
   constructor(private readonly promoCodeService: PromoCodeService) {}

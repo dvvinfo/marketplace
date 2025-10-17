@@ -9,10 +9,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { FavoriteService } from './favorite.service';
 import { CreateFavoriteDto } from './dto/createFavorite.dto';
 
+@ApiTags('Favorites')
 @Controller('favorites')
 export class FavoriteController {
   constructor(private readonly favoriteService: FavoriteService) {}

@@ -6,16 +6,21 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 
 import { AnalyticsService } from './analytics.service';
 import { DateRangeDto } from './dto/dateRange.dto';
 
+@ApiTags('Analytics')
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('/overview')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get sales overview statistics' })
+  @ApiQuery({ name: 'startDate', required: false, example: '2025-01-01' })
+  @ApiQuery({ name: 'endDate', required: false, example: '2025-12-31' })
   async getSalesOverview(@Query() dateRange: DateRangeDto) {
     const startDate = dateRange.startDate
       ? new Date(dateRange.startDate)
