@@ -5,8 +5,16 @@ import { TypeOrmModule } from '@db/typeorm.module';
 import { UserModule } from '@modules/user/user.module';
 import { ProductModule } from '@modules/product/product.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { OrderModule } from '@modules/order/order.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule, UserModule, ProductModule, AuthModule],
+  imports: [
+    ConfigModule,
+    TypeOrmModule,
+    UserModule,
+    ProductModule,
+    AuthModule,
+    OrderModule,
+  ],
 })
 export class AppModule {}
