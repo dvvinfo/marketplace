@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThan } from 'typeorm';
 
-import { User, UserRole } from '@modules/user/user.entity';
+import { User } from '@modules/user/user.entity';
+import { UserRole } from '@modules/user/types';
 import { Product } from '@modules/product/product.entity';
 import { Order } from '@modules/order/order.entity';
 import { Review } from '@modules/review/review.entity';

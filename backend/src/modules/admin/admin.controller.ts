@@ -14,7 +14,7 @@ import {
 import { AdminService } from './admin.service';
 import { AdminGuard } from './guards/admin.guard';
 import { Roles } from './decorators/roles.decorator';
-import { UserRole } from '@modules/user/user.entity';
+import { UserRole } from '../user/types';
 
 @Controller('admin')
 @UseGuards(AdminGuard)
