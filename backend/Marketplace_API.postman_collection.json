@@ -2,7 +2,7 @@
   "info": {
     "name": "Marketplace API",
     "_postman_id": "marketplace-api-collection",
-    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category и Address endpoints. Включает систему авторизации с JWT токенами.",
+    "description": "API коллекция для тестирования Auth, User, Product, Order, Favorite, Cart, Review, Category, Address и PromoCode endpoints. Включает систему авторизации с JWT токенами.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1103,6 +1103,164 @@
               "raw": "{{baseUrl}}/addresses/1/user/1",
               "host": ["{{baseUrl}}"],
               "path": ["addresses", "1", "user", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Promo Codes",
+      "item": [
+        {
+          "name": "Get All Promo Codes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Promo Codes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "active"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Promo Code By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Promo Code By Code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/code/SUMMER2024",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "code", "SUMMER2024"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Promo Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SUMMER2024\",\n  \"orderAmount\": 150\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "validate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Promo Code (Percentage)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SUMMER2024\",\n  \"description\": \"Summer sale - 20% off\",\n  \"discountType\": \"percentage\",\n  \"discountValue\": 20,\n  \"minPurchaseAmount\": 50,\n  \"maxDiscountAmount\": 100,\n  \"usageLimit\": 1000,\n  \"validFrom\": \"2024-06-01T00:00:00Z\",\n  \"validUntil\": \"2024-08-31T23:59:59Z\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Promo Code (Fixed)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"WELCOME10\",\n  \"description\": \"Welcome bonus - $10 off\",\n  \"discountType\": \"fixed\",\n  \"discountValue\": 10,\n  \"minPurchaseAmount\": 30,\n  \"usageLimit\": 500,\n  \"validFrom\": \"2024-01-01T00:00:00Z\",\n  \"validUntil\": \"2024-12-31T23:59:59Z\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Promo Code",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"discountValue\": 25,\n  \"usageLimit\": 1500,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Promo Code",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/promo-codes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["promo-codes", "1"]
             }
           },
           "response": []
