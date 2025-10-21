@@ -15,7 +15,7 @@ export const getRabbitMQConfig = (queue: string): RmqOptions => {
       queueOptions: {
         durable: true,
       },
-      noAck: false,
+      noAck: true,
       prefetchCount: 1,
     },
   };
