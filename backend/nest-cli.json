@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
+    "promo-service": {
+      "type": "application",
+      "root": "apps/promo-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/promo-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/promo-service/tsconfig.app.json"
+      }
+    },
     "shared": {
       "type": "library",
       "root": "libs/shared",
