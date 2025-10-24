@@ -27,6 +27,7 @@
 - **База данных:** PostgreSQL (порт 5433)
 
 ### 3. ✅ Order Service (RabbitMQ)
+
 - **Статус:** Работает
 - **Очередь:** `order_queue`
 - **Модули:**
@@ -34,7 +35,17 @@
   - Cart Module (корзина)
 - **База данных:** PostgreSQL (порт 5433)
 
-### 4. ✅ PromoCode Service (RabbitMQ)
+### 4. ✅ User Service (RabbitMQ)
+
+- **Статус:** Работает
+- **Очередь:** `user_queue`
+- **Модули:**
+  - User Module (пользователи)
+  - Auth Module (аутентификация)
+  - Address Module (адреса)
+- **База данных:** PostgreSQL (порт 5433)
+
+### 5. ✅ PromoCode Service (RabbitMQ)
 
 - **Статус:** Работает
 - **Очередь:** `promo_code_queue`
@@ -63,6 +74,8 @@
 - **Логин:** marketplace / marketplace
 - **Очереди:**
   - `product_queue` ✅
+  - `order_queue` ✅
+  - `user_queue` ✅
   - `promo_code_queue` ✅
 
 ### ✅ pgAdmin
@@ -264,26 +277,19 @@ Invoke-RestMethod -Uri http://localhost:3000/promo-codes -Method GET
    - ✅ Product Module
    - ✅ Category Module
    - ✅ ProductView Module
+3. ✅ Order Service - выделен и работает
+   - ✅ Order Module (заказы)
+   - ✅ Cart Module (корзина)
+4. ✅ User Service - выделен и работает
+   - ✅ User Module (пользователи)
+   - ✅ Auth Module (аутентификация)
+   - ✅ Address Module (адреса)
 
 ### В планах ⏳
-
-3. ⏳ Order Service
-   - Order Module (заказы)
-   - Cart Module (корзина)
-   - OrderItem Module (позиции заказа)
-
-4. ⏳ User Service
-   - User Module (пользователи)
-   - Auth Module (авторизация)
-   - Address Module (адреса)
 
 5. ⏳ Review Service
    - Review Module (отзывы)
    - Rating Module (рейтинги)
-
-6. ⏳ Analytics Service
-   - Analytics Module (аналитика)
-   - Reports Module (отчеты)
 
 ## 🎯 Преимущества текущей архитектуры
 
@@ -315,14 +321,27 @@ Invoke-RestMethod -Uri http://localhost:3000/promo-codes -Method GET
 ## 📚 Документация
 
 ### Product Service
+
 - [PRODUCT-SERVICE-README.md](./PRODUCT-SERVICE-README.md) - Подробная документация
 - [PRODUCT-SERVICE-COMPLETE.md](./PRODUCT-SERVICE-COMPLETE.md) - Отчет о завершении
 
+### Order Service
+
+- [ORDER-SERVICE-README.md](./ORDER-SERVICE-README.md) - Подробная документация
+- [ORDER-SERVICE-COMPLETE.md](./ORDER-SERVICE-COMPLETE.md) - Отчет о завершении
+
+### User Service
+
+- [USER-SERVICE-README.md](./USER-SERVICE-README.md) - Подробная документация
+- [USER-SERVICE-COMPLETE.md](./USER-SERVICE-COMPLETE.md) - Отчет о завершении
+
 ### PromoCode Service
+
 - [PROMO-SERVICE-README.md](./PROMO-SERVICE-README.md) - Подробная документация
 - [PROMO-SERVICE-COMPLETE.md](./PROMO-SERVICE-COMPLETE.md) - Отчет о завершении
 
 ### Общая документация
+
 - [MICROSERVICES.md](./MICROSERVICES.md) - Общая документация по микросервисам
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Архитектура системы
 
@@ -336,5 +355,5 @@ Invoke-RestMethod -Uri http://localhost:3000/promo-codes -Method GET
 ---
 
 **Статус:** ✅ Система работает стабильно  
-**Последнее обновление:** 24 октября 2025, 12:35  
-**Готовые сервисы:** 3 из 6
+**Последнее обновление:** 24 октября 2025, 13:15  
+**Готовые сервисы:** 4 из 5 (80% завершено)

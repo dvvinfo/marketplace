@@ -1,73 +1,58 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { genSalt, hash } from 'bcrypt';
-
-import { User } from './user.entity';
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+import { RABBITMQ_PATTERNS } from '@app/shared';
+import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject('USER_SERVICE')
+    private readonly userClient: ClientProxy,
   ) {}
 
-  availableFields = ['nameFirst', 'nameLast', 'email', 'gender', 'birthDate'];
-
-  // Filter body's fileds from available fields list
-  private filterFields(body: UpdateUserDto): Partial<UpdateUserDto> {
-    const filteredBody: Partial<Record<keyof UpdateUserDto, unknown>> = {};
-
-    (Object.keys(body) as (keyof UpdateUserDto)[]).forEach((k) => {
-      if (this.availableFields.includes(k as string)) {
-        filteredBody[k] = body[k] as unknown;
-      }
-    });
-
-    return filteredBody as Partial<UpdateUserDto>;
+  async getAllUsers() {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.GET_ALL_USERS, {}),
+    );
+    return response.data;
   }
 
-  // Register new user
-  public async createUser(userData: Partial<User> & { password: string }) {
-    const salt = await genSalt(10);
-
-    const hashedPassword = await hash(userData.password, salt);
-
-    const newUser = this.userRepository.create({
-      ...userData,
-      password: hashedPassword,
-    });
-
-    return await this.userRepository.save(newUser);
+  async getUserById(id: number) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.GET_USER, id),
+    );
+    return response.data;
   }
 
-  // Get all users
-  public async getAllUsers() {
-    return await this.userRepository.find({
-      select: this.availableFields as (keyof User)[],
-    });
+  async getUserByEmail(email: string) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.GET_USER_BY_EMAIL, email),
+    );
+    return response.data;
   }
 
-  // Get user data by id
-  public async getUserData(id: number) {
-    return await this.userRepository.findOne({
-      where: { id },
-      select: this.availableFields as (keyof User)[],
-    });
+  async createUser(userData: CreateUserDto) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.CREATE_USER, userData),
+    );
+    return response.data;
   }
 
-  // Update user data whole
-  public async updateUserData(id: number, body: UpdateUserDto) {
-    return await this.userRepository.update({ id }, this.filterFields(body));
+  async updateUser(id: number, userData: UpdateUserDto) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.UPDATE_USER, {
+        id,
+        data: userData,
+      }),
+    );
+    return response.data;
   }
 
-  // Delete user by id
-  public async deleteUser(id: number) {
-    return await this.userRepository.delete(id);
-  }
-
-  // Find user by email (for auth)
-  public async findByEmail(email: string): Promise<User | null> {
-    return await this.userRepository.findOne({ where: { email } });
+  async deleteUser(id: number): Promise<void> {
+    await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.DELETE_USER, id),
+    );
   }
 }

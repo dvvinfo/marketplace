@@ -1,18 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddressController } from './address.controller';
 import { AddressService } from './address.service';
-import { getRabbitMQConfig, RABBITMQ_QUEUES } from '@app/shared';
+import { Address } from './address.entity';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'USER_SERVICE',
-        ...getRabbitMQConfig(RABBITMQ_QUEUES.USER_SERVICE),
-      },
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([Address])],
   controllers: [AddressController],
   providers: [AddressService],
   exports: [AddressService],

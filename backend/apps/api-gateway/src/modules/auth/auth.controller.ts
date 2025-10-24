@@ -35,7 +35,6 @@ export class AuthController {
     return await this.authService.register(registerDto);
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login user' })
@@ -44,8 +43,8 @@ export class AuthController {
     description: 'Login successful, returns JWT token',
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Request() req: { user: { id: number; email: string } }) {
-    return this.authService.login(req.user);
+  async login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 
   @UseGuards(JwtAuthGuard)

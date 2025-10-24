@@ -53,4 +53,27 @@ export const RABBITMQ_PATTERNS = {
   UPDATE_CART_ITEM: 'update_cart_item',
   REMOVE_CART_ITEM: 'remove_cart_item',
   CLEAR_CART: 'clear_cart',
+
+  // User Service
+  GET_ALL_USERS: 'get_all_users',
+  GET_USER: 'get_user',
+  GET_USER_BY_EMAIL: 'get_user_by_email',
+  CREATE_USER: 'create_user',
+  UPDATE_USER: 'update_user',
+  DELETE_USER: 'delete_user',
+
+  // Auth Service
+  AUTH_REGISTER: 'auth_register',
+  AUTH_LOGIN: 'auth_login',
+  AUTH_VALIDATE_TOKEN: 'auth_validate_token',
+
+  // Address Service
+  GET_ALL_ADDRESSES: 'get_all_addresses',
+  GET_ADDRESS: 'get_address',
+  GET_USER_ADDRESSES: 'get_user_addresses',
+  GET_DEFAULT_ADDRESS: 'get_default_address',
+  CREATE_ADDRESS: 'create_address',
+  UPDATE_ADDRESS: 'update_address',
+  SET_DEFAULT_ADDRESS: 'set_default_address',
+  DELETE_ADDRESS: 'delete_address',
 } as const;

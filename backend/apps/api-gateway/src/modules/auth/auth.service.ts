@@ -1,63 +1,35 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
-
-import { UserService } from '@modules/user/user.service';
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+import { RABBITMQ_PATTERNS } from '@app/shared';
 import { RegisterDto } from './dto/register.dto';
-import { UserWithoutPassword } from './types/user.types';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
+    @Inject('USER_SERVICE')
+    private readonly userClient: ClientProxy,
   ) {}
 
-  async validateUser(
-    email: string,
-    password: string,
-  ): Promise<UserWithoutPassword | null> {
-    const user = await this.userService.findByEmail(email);
-
-    if (!user) {
-      return null;
-    }
-
-    const isPasswordValid = await compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return null;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...result } = user;
-    return result;
-  }
-
-  async login(user: { id: number; email: string }) {
-    const payload = { email: user.email, sub: user.id };
-
-    return {
-      access_token: this.jwtService.sign(payload),
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-    };
-  }
-
   async register(registerDto: RegisterDto) {
-    const existingUser = await this.userService.findByEmail(registerDto.email);
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.AUTH_REGISTER, registerDto),
+    );
+    return response.data;
+  }
 
-    if (existingUser) {
-      throw new UnauthorizedException('User with this email already exists');
-    }
+  async login(loginDto: LoginDto) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.AUTH_LOGIN, loginDto),
+    );
+    return response.data;
+  }
 
-    const user = await this.userService.createUser(registerDto);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...result } = user;
-
-    return this.login({ id: result.id, email: result.email });
+  async validateToken(token: string) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.AUTH_VALIDATE_TOKEN, token),
+    );
+    return response.data;
   }
 }

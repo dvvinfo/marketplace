@@ -1,23 +1,20 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-
-import { AuthService } from './auth.service';
+import { ClientsModule } from '@nestjs/microservices';
 import { AuthController } from './auth.controller';
-import { UserModule } from '@modules/user/user.module';
-import { LocalStrategy } from './strategies/local.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthService } from './auth.service';
+import { getRabbitMQConfig, RABBITMQ_QUEUES } from '@app/shared';
 
 @Module({
   imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key',
-      signOptions: { expiresIn: '24h' },
-    }),
+    ClientsModule.register([
+      {
+        name: 'USER_SERVICE',
+        ...getRabbitMQConfig(RABBITMQ_QUEUES.USER_SERVICE),
+      },
+    ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}

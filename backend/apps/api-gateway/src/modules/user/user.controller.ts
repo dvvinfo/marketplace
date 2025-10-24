@@ -30,7 +30,7 @@ export class UserController {
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   async getUser(@Param('id', ParseIntPipe) id: number) {
-    return await this.userService.getUserData(id);
+    return await this.userService.getUserById(id);
   }
 
   @Post('/')
@@ -45,8 +45,7 @@ export class UserController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateUserDto,
   ) {
-    await this.userService.updateUserData(id, body);
-    return { message: 'User updated successfully' };
+    return await this.userService.updateUser(id, body);
   }
 
   @Delete('/:id')

@@ -75,8 +75,7 @@ export class OrderService {
         );
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const product = productResponse.data!;
+      const product = productResponse.data;
 
       if (product.stock < item.quantity) {
         throw new BadRequestException(
@@ -84,7 +83,6 @@ export class OrderService {
         );
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const price =
         product.discountPrice !== null ? product.discountPrice : product.price;
       const subtotal = Number(price) * item.quantity;
