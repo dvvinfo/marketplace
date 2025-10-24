@@ -71,9 +71,14 @@ export class PromoCodeController {
   }
 
   @MessagePattern('update_promo_code')
-  async updatePromoCode(@Payload() payload: { id: number; data: UpdatePromoCodeDto }) {
+  async updatePromoCode(
+    @Payload() payload: { id: number; data: UpdatePromoCodeDto },
+  ) {
     try {
-      const promoCode = await this.promoCodeService.updatePromoCode(payload.id, payload.data);
+      const promoCode = await this.promoCodeService.updatePromoCode(
+        payload.id,
+        payload.data,
+      );
       return { success: true, data: promoCode };
     } catch (error) {
       return { success: false, error: error.message };

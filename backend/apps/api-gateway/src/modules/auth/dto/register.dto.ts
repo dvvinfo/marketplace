@@ -15,7 +15,11 @@ export class RegisterDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({ example: 'password123', description: 'User password', minLength: 6 })
+  @ApiProperty({
+    example: 'password123',
+    description: 'User password',
+    minLength: 6,
+  })
   @IsString()
   @MinLength(6)
   password: string;
@@ -30,7 +34,10 @@ export class RegisterDto {
   @MinLength(1)
   nameLast: string;
 
-  @ApiPropertyOptional({ example: '1990-01-01', description: 'Birth date in ISO format' })
+  @ApiPropertyOptional({
+    example: '1990-01-01',
+    description: 'Birth date in ISO format',
+  })
   @IsISO8601()
   @IsOptional()
   birthDate?: Date;

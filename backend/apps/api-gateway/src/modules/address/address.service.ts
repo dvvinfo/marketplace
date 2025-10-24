@@ -97,10 +97,7 @@ export class AddressService {
     return await this.addressRepository.save(address);
   }
 
-  public async setDefaultAddress(
-    id: number,
-    userId: number,
-  ): Promise<Address> {
+  public async setDefaultAddress(id: number, userId: number): Promise<Address> {
     const address = await this.getAddressById(id);
 
     if (address.userId !== userId) {

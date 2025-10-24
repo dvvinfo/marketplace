@@ -54,7 +54,9 @@ export class ProductController {
   }
 
   @MessagePattern(RABBITMQ_PATTERNS.UPDATE_PRODUCT)
-  async updateProduct(@Payload() payload: { id: number; data: UpdateProductDto }) {
+  async updateProduct(
+    @Payload() payload: { id: number; data: UpdateProductDto },
+  ) {
     try {
       await this.productService.updateProduct(payload.id, payload.data);
       const updated = await this.productService.getProductById(payload.id);

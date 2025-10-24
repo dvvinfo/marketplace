@@ -63,8 +63,6 @@ export class PromoCodeService {
   }
 
   public async deletePromoCode(id: number): Promise<void> {
-    await firstValueFrom(
-      this.promoClient.send('delete_promo_code', id),
-    );
+    await firstValueFrom(this.promoClient.send('delete_promo_code', id));
   }
 }

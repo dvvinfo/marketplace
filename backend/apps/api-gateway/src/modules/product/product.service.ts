@@ -43,7 +43,10 @@ export class ProductService {
 
   public async updateProduct(id: number, productData: UpdateProductDto) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.UPDATE_PRODUCT, { id, data: productData }),
+      this.productClient.send(RABBITMQ_PATTERNS.UPDATE_PRODUCT, {
+        id,
+        data: productData,
+      }),
     );
     return response.data;
   }

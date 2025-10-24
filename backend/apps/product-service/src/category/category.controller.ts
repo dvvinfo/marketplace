@@ -86,9 +86,14 @@ export class CategoryController {
   }
 
   @MessagePattern(RABBITMQ_PATTERNS.UPDATE_CATEGORY)
-  async updateCategory(@Payload() payload: { id: number; data: UpdateCategoryDto }) {
+  async updateCategory(
+    @Payload() payload: { id: number; data: UpdateCategoryDto },
+  ) {
     try {
-      const category = await this.categoryService.updateCategory(payload.id, payload.data);
+      const category = await this.categoryService.updateCategory(
+        payload.id,
+        payload.data,
+      );
       return { success: true, data: category };
     } catch (error) {
       return { success: false, error: error.message };

@@ -9,3 +9,16 @@ export interface ServiceResponse<T = any> {
   error?: string;
   message?: string;
 }
+
+export interface ProductResponse {
+  id: number;
+  title: string;
+  price: number;
+  discountPrice: number | null;
+  stock: number;
+  categoryId: number | null;
+  image: string | null;
+  description: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}

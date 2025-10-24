@@ -3,7 +3,7 @@
 ## ✅ Статус проекта
 
 **Дата:** 24 октября 2025  
-**Статус:** 2 микросервиса успешно выделены, запущены и протестированы!
+**Статус:** 3 микросервиса успешно выделены, запущены и протестированы!
 
 ---
 
@@ -55,6 +55,58 @@
 
 ---
 
+### 3. 🛒 Order Service
+
+**Статус:** ✅ Готов и протестирован
+
+**Модули:**
+- **Product Module** - управление товарами
+- **Category Module** - иерархия категорий
+- **ProductView Module** - трекинг просмотров
+
+**Функционал:**
+- CRUD операции с товарами
+- Поиск и фильтрация товаров
+- Управление остатками
+- Иерархическая структура категорий
+- Дерево категорий
+- Аналитика просмотров
+
+**Документация:**
+- [PRODUCT-SERVICE-README.md](./PRODUCT-SERVICE-README.md) - Полная документация
+- [PRODUCT-SERVICE-COMPLETE.md](./PRODUCT-SERVICE-COMPLETE.md) - Отчет о завершении
+- [test-product-service.ps1](./test-product-service.ps1) - Тестовый скрипт
+
+**Очередь RabbitMQ:** `product_queue`
+
+---
+
+### 3. 🛒 Order Service
+
+**Статус:** ✅ Готов и протестирован
+
+**Модули:**
+- **Order Module** - управление заказами
+- **Cart Module** - корзина покупок
+
+**Функционал:**
+- Создание и управление заказами
+- Управление статусами заказов
+- История заказов пользователя
+- Добавление товаров в корзину
+- Обновление количества в корзине
+- Автоматический пересчет суммы
+- Интеграция с Product Service (проверка остатков, обновление stock)
+
+**Документация:**
+- [ORDER-SERVICE-README.md](./ORDER-SERVICE-README.md) - Полная документация
+- [ORDER-SERVICE-COMPLETE.md](./ORDER-SERVICE-COMPLETE.md) - Отчет о завершении
+- [test-order-service.ps1](./test-order-service.ps1) - Тестовый скрипт
+
+**Очередь RabbitMQ:** `order_queue`
+
+---
+
 ## 🏗️ Архитектура системы
 
 ```
@@ -75,25 +127,26 @@
 ┌──────────────────────────────────────────────────────────────┐
 │              RabbitMQ Message Broker :5672                    │
 │              Management UI: http://localhost:15672            │
-│  ┌──────────────────┐         ┌──────────────────┐           │
-│  │ product_queue    │         │ promo_code_queue │           │
-│  └──────────────────┘         └──────────────────┘           │
-└──────────┬────────────────────────────┬──────────────────────┘
-           │                            │
-    ┌──────▼──────┐              ┌─────▼──────┐
-    │             │              │            │
-    │  Product    │              │ PromoCode  │
-    │  Service    │              │  Service   │
-    │             │              │            │
-    │  🛍️         │              │  🎫        │
-    │             │              │            │
-    │ • Products  │              │ • Codes    │
-    │ • Category  │              │ • Validate │
-    │ • Views     │              │ • Discount │
-    │             │              │            │
-    └──────┬──────┘              └─────┬──────┘
-           │                           │
-           └──────────┬────────────────┘
+│  ┌────────────┐    ┌────────────┐    ┌────────────┐        │
+│  │product_    │    │promo_code_ │    │order_      │        │
+│  │queue       │    │queue       │    │queue       │        │
+│  └────────────┘    └────────────┘    └────────────┘        │
+└──────┬──────────────────┬──────────────────┬───────────────┘
+       │                  │                  │
+   ┌───▼────┐        ┌────▼────┐       ┌────▼────┐
+   │        │        │         │       │         │
+   │Product │        │PromoCode│       │ Order   │
+   │Service │        │ Service │       │ Service │
+   │        │        │         │       │         │
+   │  🛍️   │        │   🎫    │       │   🛒    │
+   │        │        │         │       │         │
+   │Products│◄───────┤ • Codes │       │ • Orders│
+   │Category│        │ • Valid │       │ • Cart  │
+   │ Views  │        │ • Disc. │       │ • Stock │
+   │        │        │         │       │         │
+   └───┬────┘        └─────────┘       └────┬────┘
+       │                                     │
+       └──────────┬──────────────────────────┘
                       │ TypeORM
                       ▼
      ┌────────────────────────────────────┐
@@ -142,6 +195,9 @@ npm run start:dev
 ```bash
 # Тест Product Service
 .\test-product-service.ps1
+
+# Тест Order Service
+.\test-order-service.ps1
 
 # Тест PromoCode Service
 .\test-promo-service.ps1
@@ -296,9 +352,10 @@ Invoke-RestMethod -Uri http://localhost:3000/promo-codes/validate -Method POST `
 ### Готово ✅
 1. ✅ **PromoCode Service** - Управление промокодами
 2. ✅ **Product Service** - Товары, категории, просмотры
+3. ✅ **Order Service** - Заказы и корзина
 
 ### В планах ⏳
-3. ⏳ **Order Service**
+4. ⏳ **User Service**
    - Order Module (заказы)
    - Cart Module (корзина)
    - OrderItem Module (позиции заказа)
@@ -429,6 +486,11 @@ docker exec -it marketplace_postgres psql -U marketplace -d marketplace
 - [PRODUCT-SERVICE-COMPLETE.md](./PRODUCT-SERVICE-COMPLETE.md)
 - [test-product-service.ps1](./test-product-service.ps1)
 
+### Order Service 🛒
+- [ORDER-SERVICE-README.md](./ORDER-SERVICE-README.md)
+- [ORDER-SERVICE-COMPLETE.md](./ORDER-SERVICE-COMPLETE.md)
+- [test-order-service.ps1](./test-order-service.ps1)
+
 ### Общая документация
 - [MICROSERVICES.md](./MICROSERVICES.md)
 - [ARCHITECTURE.md](./ARCHITECTURE.md)
@@ -437,5 +499,5 @@ docker exec -it marketplace_postgres psql -U marketplace -d marketplace
 ---
 
 **Статус:** ✅ Система работает стабильно  
-**Последнее обновление:** 24 октября 2025  
-**Готовые сервисы:** 2 из 6 запланированных
+**Последнее обновление:** 24 октября 2025, 12:30  
+**Готовые сервисы:** 3 из 6 запланированных

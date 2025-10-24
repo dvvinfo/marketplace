@@ -63,9 +63,7 @@ export class PromoCodeService {
     return promoCode;
   }
 
-  public async validatePromoCode(
-    validateDto: ValidatePromoCodeDto,
-  ): Promise<{
+  public async validatePromoCode(validateDto: ValidatePromoCodeDto): Promise<{
     valid: boolean;
     promoCode?: PromoCode;
     discountAmount?: number;

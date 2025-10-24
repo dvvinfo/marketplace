@@ -19,10 +19,15 @@ export class ProductViewController {
   }
 
   @MessagePattern(RABBITMQ_PATTERNS.GET_RECENTLY_VIEWED)
-  async getRecentlyViewed(@Payload() payload: { userId: number; limit?: number }) {
+  async getRecentlyViewed(
+    @Payload() payload: { userId: number; limit?: number },
+  ) {
     try {
       const limit = payload.limit || 10;
-      const views = await this.productViewService.getRecentlyViewedByUser(payload.userId, limit);
+      const views = await this.productViewService.getRecentlyViewedByUser(
+        payload.userId,
+        limit,
+      );
       return { success: true, data: views };
     } catch (error) {
       return { success: false, error: error.message };
@@ -32,7 +37,8 @@ export class ProductViewController {
   @MessagePattern(RABBITMQ_PATTERNS.GET_PRODUCT_VIEW_COUNT)
   async getViewCount(@Payload() productId: number) {
     try {
-      const count = await this.productViewService.getProductViewCount(productId);
+      const count =
+        await this.productViewService.getProductViewCount(productId);
       return { success: true, data: { productId, viewCount: count } };
     } catch (error) {
       return { success: false, error: error.message };
@@ -44,7 +50,10 @@ export class ProductViewController {
     try {
       const hours = payload.hours || 24;
       const limit = payload.limit || 10;
-      const products = await this.productViewService.getTrendingProducts(hours, limit);
+      const products = await this.productViewService.getTrendingProducts(
+        hours,
+        limit,
+      );
       return { success: true, data: products };
     } catch (error) {
       return { success: false, error: error.message };

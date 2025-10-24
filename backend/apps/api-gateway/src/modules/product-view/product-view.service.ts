@@ -20,28 +20,39 @@ export class ProductViewService {
 
   public async getRecentlyViewedByUser(userId: number, limit: number = 10) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.GET_RECENTLY_VIEWED, { userId, limit }),
+      this.productClient.send(RABBITMQ_PATTERNS.GET_RECENTLY_VIEWED, {
+        userId,
+        limit,
+      }),
     );
     return response.data;
   }
 
   public async getProductViewCount(productId: number) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.GET_PRODUCT_VIEW_COUNT, productId),
+      this.productClient.send(
+        RABBITMQ_PATTERNS.GET_PRODUCT_VIEW_COUNT,
+        productId,
+      ),
     );
     return response.data.viewCount;
   }
 
   public async getTrendingProducts(hours: number = 24, limit: number = 10) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.GET_TRENDING_PRODUCTS, { hours, limit }),
+      this.productClient.send(RABBITMQ_PATTERNS.GET_TRENDING_PRODUCTS, {
+        hours,
+        limit,
+      }),
     );
     return response.data;
   }
 
   public async getPopularProducts(limit: number = 10) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.GET_POPULAR_PRODUCTS, { limit }),
+      this.productClient.send(RABBITMQ_PATTERNS.GET_POPULAR_PRODUCTS, {
+        limit,
+      }),
     );
     return response.data;
   }

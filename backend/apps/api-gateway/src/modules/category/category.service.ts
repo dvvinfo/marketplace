@@ -63,7 +63,10 @@ export class CategoryService {
 
   public async updateCategory(id: number, categoryData: UpdateCategoryDto) {
     const response = await firstValueFrom(
-      this.productClient.send(RABBITMQ_PATTERNS.UPDATE_CATEGORY, { id, data: categoryData }),
+      this.productClient.send(RABBITMQ_PATTERNS.UPDATE_CATEGORY, {
+        id,
+        data: categoryData,
+      }),
     );
     return response.data;
   }

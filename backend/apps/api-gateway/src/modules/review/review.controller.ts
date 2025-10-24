@@ -35,7 +35,9 @@ export class ReviewController {
 
   @Get('/product/:productId')
   @HttpCode(HttpStatus.OK)
-  async getReviewsByProduct(@Param('productId', ParseIntPipe) productId: number) {
+  async getReviewsByProduct(
+    @Param('productId', ParseIntPipe) productId: number,
+  ) {
     return await this.reviewService.getReviewsByProductId(productId);
   }
 

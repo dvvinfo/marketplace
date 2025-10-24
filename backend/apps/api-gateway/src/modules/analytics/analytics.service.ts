@@ -187,9 +187,7 @@ export class AnalyticsService {
     }));
   }
 
-  public async getCustomerLifetimeValue(
-    limit: number = 10,
-  ): Promise<
+  public async getCustomerLifetimeValue(limit: number = 10): Promise<
     Array<{
       userId: number;
       userEmail: string;
