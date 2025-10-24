@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
-    "promo-service": {
+    "order-service": {
       "type": "application",
-      "root": "apps/promo-service",
+      "root": "apps/order-service",
       "entryFile": "main",
-      "sourceRoot": "apps/promo-service/src",
+      "sourceRoot": "apps/order-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/promo-service/tsconfig.app.json"
+        "tsConfigPath": "apps/order-service/tsconfig.app.json"
       }
     },
     "product-service": {
@@ -37,22 +37,22 @@
         "tsConfigPath": "apps/product-service/tsconfig.app.json"
       }
     },
-    "order-service": {
+    "promo-service": {
       "type": "application",
-      "root": "apps/order-service",
+      "root": "apps/promo-service",
       "entryFile": "main",
-      "sourceRoot": "apps/order-service/src",
+      "sourceRoot": "apps/promo-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/order-service/tsconfig.app.json"
+        "tsConfigPath": "apps/promo-service/tsconfig.app.json"
       }
     },
-    "user-service": {
+    "review-service": {
       "type": "application",
-      "root": "apps/user-service",
+      "root": "apps/review-service",
       "entryFile": "main",
-      "sourceRoot": "apps/user-service/src",
+      "sourceRoot": "apps/review-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/user-service/tsconfig.app.json"
+        "tsConfigPath": "apps/review-service/tsconfig.app.json"
       }
     },
     "shared": {
@@ -62,6 +62,15 @@
       "sourceRoot": "libs/shared/src",
       "compilerOptions": {
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
+      }
+    },
+    "user-service": {
+      "type": "application",
+      "root": "apps/user-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/user-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user-service/tsconfig.app.json"
       }
     }
   }

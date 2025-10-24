@@ -3,6 +3,7 @@ export const RABBITMQ_QUEUES = {
   PRODUCT_SERVICE: 'product_queue',
   ORDER_SERVICE: 'order_queue',
   USER_SERVICE: 'user_queue',
+  REVIEW_SERVICE: 'review_queue',
   NOTIFICATION_SERVICE: 'notification_queue',
 } as const;
 
@@ -76,4 +77,14 @@ export const RABBITMQ_PATTERNS = {
   UPDATE_ADDRESS: 'update_address',
   SET_DEFAULT_ADDRESS: 'set_default_address',
   DELETE_ADDRESS: 'delete_address',
+
+  // Review Service
+  GET_ALL_REVIEWS: 'get_all_reviews',
+  GET_REVIEW_BY_ID: 'get_review_by_id',
+  GET_REVIEWS_BY_PRODUCT: 'get_reviews_by_product',
+  GET_PRODUCT_RATING: 'get_product_rating',
+  GET_REVIEWS_BY_USER: 'get_reviews_by_user',
+  CREATE_REVIEW: 'create_review',
+  UPDATE_REVIEW: 'update_review',
+  DELETE_REVIEW: 'delete_review',
 } as const;

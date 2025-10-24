@@ -22,6 +22,7 @@ docker-compose up -d
 ```
 
 Запустятся:
+
 - **PostgreSQL** - 127.0.0.1:5433
 - **RabbitMQ** - 127.0.0.1:5672
 - **RabbitMQ Management UI** - http://localhost:15672 (marketplace/marketplace)
@@ -50,6 +51,7 @@ API Gateway запустится на http://localhost:3000 и будет про
 ### RabbitMQ Message Patterns
 
 #### PromoCode Service:
+
 - `get_all_promo_codes` - получить все промокоды
 - `get_active_promo_codes` - получить активные промокоды
 - `get_promo_code` - получить по ID
@@ -112,6 +114,7 @@ curl -X POST http://localhost:3000/promo-codes/validate \
 ## 🛠️ Команды NPM
 
 ### Сборка
+
 ```bash
 npm run build              # Собрать все
 npm run build:gateway      # Собрать API Gateway
@@ -119,12 +122,14 @@ npm run build:promo        # Собрать PromoCode Service
 ```
 
 ### Разработка
+
 ```bash
 npm run start:dev          # API Gateway в режиме разработки
 npm run start:promo:dev    # PromoCode Service в режиме разработки
 ```
 
 ### Production
+
 ```bash
 npm run start:prod         # API Gateway
 npm run start:promo:prod   # PromoCode Service
@@ -135,17 +140,22 @@ npm run start:promo:prod   # PromoCode Service
 ## 📊 Мониторинг
 
 ### RabbitMQ Management UI
+
 http://localhost:15672
+
 - **Login:** marketplace
 - **Password:** marketplace
 
 Здесь можно:
+
 - Просматривать очереди и сообщения
 - Мониторить нагрузку
 - Проверять статус подключений
 
 ### PostgreSQL (через pgAdmin)
+
 http://localhost:5050
+
 - **Login:** marketplace@admin.com
 - **Password:** marketplace
 
@@ -227,14 +237,15 @@ bootstrap();
 
 ---
 
-## 📝 Следующие шаги
+## 📝 Статус микросервисов
 
-1. ✅ PromoCode Service - **выделен**
-2. ⏳ Product Service - каталог товаров
-3. ⏳ Order Service - управление заказами
-4. ⏳ User Service - пользователи и авторизация
-5. ⏳ Review Service - отзывы и рейтинги
-6. ⏳ Analytics Service - аналитика
+1. ✅ PromoCode Service - **готов**
+2. ✅ Product Service - **готов** (каталог товаров, категории, просмотры)
+3. ✅ Order Service - **готов** (управление заказами, корзина)
+4. ✅ User Service - **готов** (пользователи, авторизация, адреса)
+5. ✅ Review Service - **готов** (отзывы и рейтинги)
+
+🎉 **Все основные микросервисы выделены и работают!**
 
 ---
 
@@ -243,11 +254,13 @@ bootstrap();
 ### Микросервис не запускается
 
 1. Проверьте, что RabbitMQ запущен:
+
 ```bash
 docker ps | findstr rabbitmq
 ```
 
 2. Проверьте логи RabbitMQ:
+
 ```bash
 docker logs marketplace_rabbitmq
 ```

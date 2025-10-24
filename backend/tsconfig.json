@@ -11,10 +11,18 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@db/*": ["apps/api-gateway/src/db/*"],
-      "@modules/*": ["apps/api-gateway/src/modules/*"],
-      "@app/shared": ["libs/shared/src"],
-      "@app/shared/*": ["libs/shared/src/*"]
+      "@app/shared": [
+        "libs/shared/src"
+      ],
+      "@app/shared/*": [
+        "libs/shared/src/*"
+      ],
+      "@db/*": [
+        "apps/api-gateway/src/db/*"
+      ],
+      "@modules/*": [
+        "apps/api-gateway/src/modules/*"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,
