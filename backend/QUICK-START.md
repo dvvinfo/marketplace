@@ -2,17 +2,20 @@
 
 ## Запуск (одна команда)
 
-Двойной клик на: **START-ALL.bat**
+**Windows:**
 
-Или в терминале:
 ```bash
-# PowerShell/CMD
 START-ALL.bat
-
-# Или вручную в 2 окнах:
-# Окно 1: npm run start:promo:dev
-# Окно 2: npm run start:dev
 ```
+
+**Linux/Mac:**
+
+```bash
+chmod +x START-ALL.sh
+./START-ALL.sh
+```
+
+Это запустит все 5 микросервисов + API Gateway в отдельных окнах.
 
 ---
 
@@ -23,9 +26,14 @@ START-ALL.bat
 ```
 
 Должно показать:
+
 ```
-1. PromoCode Service: STATUS: CONNECTED ✅
-2. API Gateway: STATUS: RUNNING ✅
+1. Product Service: STATUS: CONNECTED ✅
+2. Order Service: STATUS: CONNECTED ✅
+3. User Service: STATUS: CONNECTED ✅
+4. PromoCode Service: STATUS: CONNECTED ✅
+5. Review Service: STATUS: CONNECTED ✅
+6. API Gateway: STATUS: RUNNING ✅
 ```
 
 ---
@@ -51,21 +59,28 @@ START-ALL.bat
 
 ## Подробная документация
 
-- **MICROSERVICES.md** - полная документация
-- **ARCHITECTURE.md** - архитектурные диаграммы
-- **START.md** - детальные инструкции
+- **[docs/README-MICROSERVICES.md](./docs/README-MICROSERVICES.md)** - полная документация по микросервисам
+- **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - архитектурные диаграммы
 
 ---
 
 ## Команды NPM
 
 ```bash
-# Запуск
-npm run start:promo:dev    # PromoCode Service
+# Запуск микросервисов
+npm run start:product:dev   # Product Service
+npm run start:order:dev     # Order Service
+npm run start:user:dev      # User Service
+npm run start:promo:dev     # PromoCode Service
+npm run start:review:dev    # Review Service
 npm run start:dev           # API Gateway
 
 # Сборка
+npm run build:product       # Product Service
+npm run build:order         # Order Service
+npm run build:user          # User Service
 npm run build:promo         # PromoCode Service
+npm run build:review        # Review Service
 npm run build:gateway       # API Gateway
 
 # Остановка
@@ -77,17 +92,20 @@ Ctrl+C в каждом окне
 ## Устранение проблем
 
 ### Сервисы не запускаются
+
 ```bash
 docker-compose down
 docker-compose up -d
 ```
 
 ### Очистить RabbitMQ
+
 ```bash
 docker exec marketplace_rabbitmq rabbitmqctl purge_queue promo_code_queue -p marketplace_vhost
 ```
 
 ### Порт занят
+
 ```bash
 # Найти процесс
 netstat -ano | findstr :3000
