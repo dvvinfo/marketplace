@@ -1,18 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { Category } from './category.entity';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
-import { getRabbitMQConfig, RABBITMQ_QUEUES } from '@app/shared';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'PRODUCT_SERVICE',
-        ...getRabbitMQConfig(RABBITMQ_QUEUES.PRODUCT_SERVICE),
-      },
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([Category])],
   controllers: [CategoryController],
   providers: [CategoryService],
   exports: [CategoryService],

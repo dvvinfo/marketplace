@@ -1,166 +1,76 @@
-import {
-  Injectable,
-  NotFoundException,
-  ConflictException,
-  BadRequestException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, IsNull } from 'typeorm';
-
-import { Category } from './category.entity';
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+import { RABBITMQ_PATTERNS } from '@app/shared';
 import { CreateCategoryDto } from './dto/createCategory.dto';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
+    @Inject('PRODUCT_SERVICE')
+    private readonly productClient: ClientProxy,
   ) {}
 
-  public async getAllCategories(): Promise<Category[]> {
-    return await this.categoryRepository.find({
-      relations: ['parent', 'children'],
-      order: { name: 'ASC' },
-    });
+  public async getAllCategories() {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_ALL_CATEGORIES, {}),
+    );
+    return response.data;
   }
 
-  public async getRootCategories(): Promise<Category[]> {
-    return await this.categoryRepository.find({
-      where: { parentId: IsNull() },
-      relations: ['children'],
-      order: { name: 'ASC' },
-    });
+  public async getRootCategories() {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_ROOT_CATEGORIES, {}),
+    );
+    return response.data;
   }
 
-  public async getCategoryTree(): Promise<Category[]> {
-    const categories = await this.categoryRepository.find({
-      relations: ['children', 'children.children'],
-      where: { parentId: IsNull() },
-      order: { name: 'ASC' },
-    });
-
-    return categories;
+  public async getCategoryTree() {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_CATEGORY_TREE, {}),
+    );
+    return response.data;
   }
 
-  public async getCategoryById(id: number): Promise<Category> {
-    const category = await this.categoryRepository.findOne({
-      where: { id },
-      relations: ['parent', 'children'],
-    });
-
-    if (!category) {
-      throw new NotFoundException(`Category with ID ${id} not found`);
-    }
-
-    return category;
+  public async getCategoryById(id: number) {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_CATEGORY, id),
+    );
+    return response.data;
   }
 
-  public async getCategoryBySlug(slug: string): Promise<Category> {
-    const category = await this.categoryRepository.findOne({
-      where: { slug },
-      relations: ['parent', 'children'],
-    });
-
-    if (!category) {
-      throw new NotFoundException(`Category with slug "${slug}" not found`);
-    }
-
-    return category;
+  public async getCategoryBySlug(slug: string) {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_CATEGORY_BY_SLUG, slug),
+    );
+    return response.data;
   }
 
-  public async getChildCategories(parentId: number): Promise<Category[]> {
-    const parent = await this.getCategoryById(parentId);
-
-    return await this.categoryRepository.find({
-      where: { parentId: parent.id },
-      relations: ['children'],
-      order: { name: 'ASC' },
-    });
+  public async getChildCategories(parentId: number) {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.GET_CHILD_CATEGORIES, parentId),
+    );
+    return response.data;
   }
 
-  public async createCategory(
-    categoryData: CreateCategoryDto,
-  ): Promise<Category> {
-    const existingSlug = await this.categoryRepository.findOne({
-      where: { slug: categoryData.slug },
-    });
-
-    if (existingSlug) {
-      throw new ConflictException(
-        `Category with slug "${categoryData.slug}" already exists`,
-      );
-    }
-
-    if (categoryData.parentId) {
-      const parent = await this.categoryRepository.findOne({
-        where: { id: categoryData.parentId },
-      });
-
-      if (!parent) {
-        throw new NotFoundException(
-          `Parent category with ID ${categoryData.parentId} not found`,
-        );
-      }
-    }
-
-    const category = this.categoryRepository.create(categoryData);
-    return await this.categoryRepository.save(category);
+  public async createCategory(categoryData: CreateCategoryDto) {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.CREATE_CATEGORY, categoryData),
+    );
+    return response.data;
   }
 
-  public async updateCategory(
-    id: number,
-    categoryData: UpdateCategoryDto,
-  ): Promise<Category> {
-    const category = await this.getCategoryById(id);
-
-    if (categoryData.slug && categoryData.slug !== category.slug) {
-      const existingSlug = await this.categoryRepository.findOne({
-        where: { slug: categoryData.slug },
-      });
-
-      if (existingSlug) {
-        throw new ConflictException(
-          `Category with slug "${categoryData.slug}" already exists`,
-        );
-      }
-    }
-
-    if (categoryData.parentId !== undefined) {
-      if (categoryData.parentId === id) {
-        throw new BadRequestException('Category cannot be its own parent');
-      }
-
-      if (categoryData.parentId !== null) {
-        const parent = await this.categoryRepository.findOne({
-          where: { id: categoryData.parentId },
-        });
-
-        if (!parent) {
-          throw new NotFoundException(
-            `Parent category with ID ${categoryData.parentId} not found`,
-          );
-        }
-      }
-    }
-
-    Object.assign(category, categoryData);
-    return await this.categoryRepository.save(category);
+  public async updateCategory(id: number, categoryData: UpdateCategoryDto) {
+    const response = await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.UPDATE_CATEGORY, { id, data: categoryData }),
+    );
+    return response.data;
   }
 
   public async deleteCategory(id: number): Promise<void> {
-    const category = await this.getCategoryById(id);
-
-    const childCount = await this.categoryRepository.count({
-      where: { parentId: id },
-    });
-
-    if (childCount > 0) {
-      throw new BadRequestException(
-        'Cannot delete category with child categories. Delete children first.',
-      );
-    }
-
-    await this.categoryRepository.remove(category);
+    await firstValueFrom(
+      this.productClient.send(RABBITMQ_PATTERNS.DELETE_CATEGORY, id),
+    );
   }
 }

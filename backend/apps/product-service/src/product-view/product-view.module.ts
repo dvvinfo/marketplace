@@ -1,18 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { ProductView } from './product-view.entity';
+import { Product } from '@modules/product/product.entity';
 import { ProductViewController } from './product-view.controller';
 import { ProductViewService } from './product-view.service';
-import { getRabbitMQConfig, RABBITMQ_QUEUES } from '@app/shared';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'PRODUCT_SERVICE',
-        ...getRabbitMQConfig(RABBITMQ_QUEUES.PRODUCT_SERVICE),
-      },
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([ProductView, Product])],
   controllers: [ProductViewController],
   providers: [ProductViewService],
   exports: [ProductViewService],
