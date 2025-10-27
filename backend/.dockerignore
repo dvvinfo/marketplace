@@ -1,0 +1,16 @@
+node_modules
+dist
+.git
+.gitignore
+*.md
+.env
+.env.*
+uploads
+test
+coverage
+.prettierrc
+eslint.config.mjs
+*.ps1
+*.sh
+*.bat
+Marketplace_API.postman_collection.json

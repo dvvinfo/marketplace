@@ -41,4 +41,20 @@ export class AuthController {
       return { success: false, error: message };
     }
   }
+
+  @MessagePattern(RABBITMQ_PATTERNS.AUTH_VALIDATE_USER)
+  async validateUser(
+    @Payload() payload: { email: string; password: string },
+  ) {
+    try {
+      const user = await this.authService.validateUser(
+        payload.email,
+        payload.password,
+      );
+      return { success: true, data: user };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
+    }
+  }
 }

@@ -32,4 +32,14 @@ export class AuthService {
     );
     return response.data;
   }
+
+  async validateUser(email: string, password: string) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.AUTH_VALIDATE_USER, {
+        email,
+        password,
+      }),
+    );
+    return response.data;
+  }
 }

@@ -13,7 +13,7 @@ import { Review } from './review/review.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT, 10) || 5433,
+      port: parseInt(process.env.DB_PORT || '5433', 10),
       username: process.env.DB_USERNAME || 'marketplace',
       password: process.env.DB_PASSWORD || 'marketplace',
       database: process.env.DB_DATABASE || 'marketplace',

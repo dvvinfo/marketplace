@@ -53,6 +53,18 @@ export class AuthService {
     }
   }
 
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.validateUser(email, password);
+
+    if (!user) {
+      return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+
   private generateToken(userId: number, email: string): string {
     const payload = { sub: userId, email };
     return this.jwtService.sign(payload);

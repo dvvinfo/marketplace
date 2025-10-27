@@ -1,0 +1,185 @@
+services:
+  # Backend infrastructure
+  marketplace_postgres:
+    container_name: marketplace_postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: marketplace
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/var/www/marketplace/docker-volumes/postgres
+    ports:
+      - 127.0.0.1:5433:5432
+    networks:
+      - marketplace
+    restart: unless-stopped
+
+  marketplace_pgadmin:
+    container_name: marketplace_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: marketplace@admin.com
+      PGADMIN_DEFAULT_PASSWORD: marketplace
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/www/marketplace/docker-volumes/pgadmin
+    ports:
+      - 127.0.0.1:5050:80
+    networks:
+      - marketplace
+    restart: unless-stopped
+
+  marketplace_rabbitmq:
+    container_name: marketplace_rabbitmq
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: marketplace
+      RABBITMQ_DEFAULT_PASS: marketplace
+      RABBITMQ_DEFAULT_VHOST: marketplace_vhost
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 127.0.0.1:5672:5672   # AMQP protocol
+      - 127.0.0.1:15672:15672 # Management UI
+    networks:
+      - marketplace
+    restart: unless-stopped
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Backend Microservices
+  marketplace_api_gateway:
+    container_name: marketplace_api_gateway
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/api-gateway/main.js
+    ports:
+      - 127.0.0.1:3001:3001
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+
+  marketplace_product_service:
+    container_name: marketplace_product_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/product-service/main.js
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+  marketplace_order_service:
+    container_name: marketplace_order_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/order-service/main.js
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+
+  marketplace_user_service:
+    container_name: marketplace_user_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/user-service/main.js
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+
+  marketplace_promo_service:
+    container_name: marketplace_promo_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/promo-service/main.js
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+
+  marketplace_review_service:
+    container_name: marketplace_review_service
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: node dist/apps/review-service/main.js
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_postgres
+      - marketplace_rabbitmq
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      - NODE_ENV=production
+
+  # Frontend
+  marketplace_frontend:
+    container_name: marketplace_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 127.0.0.1:3000:3000
+    networks:
+      - marketplace
+    restart: unless-stopped
+    depends_on:
+      - marketplace_api_gateway
+    environment:
+      - NODE_ENV=production
+      - NUXT_PUBLIC_API_BASE_URL=http://marketplace_api_gateway:3001
+
+networks:
+  marketplace:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  rabbitmq:
