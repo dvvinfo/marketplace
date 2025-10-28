@@ -7,15 +7,21 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "generate:api": "openapi-typescript http://localhost:3001/api-docs-json -o types/api.d.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^4.1.0",
     "@pinia/nuxt": "^0.11.2",
+    "@vueuse/core": "^11.3.0",
     "nuxt": "^4.2.0",
     "pinia": "^3.0.3",
     "typescript": "^5.9.3",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.4"
   }
 }

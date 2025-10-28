@@ -68,10 +68,19 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs
@@ -92,10 +101,18 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs
@@ -117,10 +134,18 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs
@@ -141,10 +166,19 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs
@@ -165,10 +199,18 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs
@@ -189,10 +231,18 @@ services:
     depends_on:
       - marketplace_postgres
       - marketplace_rabbitmq
-    env_file:
-      - ./backend/.env
     environment:
       - NODE_ENV=development
+      - POSTGRES_HOST=marketplace_postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=marketplace
+      - POSTGRES_PASSWORD=marketplace
+      - POSTGRES_DATABASE=marketplace
+      - RABBITMQ_HOST=marketplace_rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=marketplace
+      - RABBITMQ_PASSWORD=marketplace
+      - RABBITMQ_VHOST=marketplace_vhost
     volumes:
       - ./backend/apps:/app/apps
       - ./backend/libs:/app/libs

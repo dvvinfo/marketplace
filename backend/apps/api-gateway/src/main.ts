@@ -64,9 +64,10 @@ async function bootstrap() {
     },
   });
 
-  console.log('\n🚀 Server started on http://localhost:3000');
-  console.log('📚 Swagger documentation: http://localhost:3000/api-docs\n');
+  const port = process.env.PORT ?? 3001;
+  console.log(`\n🚀 Server started on http://localhost:${port}`);
+  console.log(`📚 Swagger documentation: http://localhost:${port}/api-docs\n`);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(port);
 }
 bootstrap();
