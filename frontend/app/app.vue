@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+  >
     <NuxtRouteAnnouncer />
     <AppHeader />
     <NuxtPage />
@@ -8,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-const { fetchUser, isAuthenticated, user } = useAuth()
+const { fetchUser, isAuthenticated, user } = useAuth();
 
 // Загружаем пользователя при инициализации приложения
 if (process.client && isAuthenticated.value && !user.value) {
-  await fetchUser()
+  await fetchUser();
 }
 </script>

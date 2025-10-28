@@ -1,22 +1,22 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50"
+    class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
   >
     <div class="container mx-auto px-4 py-8">
       <div class="text-center mb-12">
         <h1
-          class="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+          class="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400"
         >
           Каталог товаров
         </h1>
-        <p class="text-gray-600 text-lg">Найдите всё, что вам нужно</p>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">Найдите всё, что вам нужно</p>
       </div>
 
       <div v-if="pending" class="text-center py-12">
         <div
           class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
         ></div>
-        <p class="mt-4 text-gray-600">Загрузка товаров...</p>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка товаров...</p>
       </div>
 
       <div
@@ -27,7 +27,7 @@
           name="i-heroicons-shopping-bag"
           class="w-16 h-16 mx-auto text-gray-400 mb-4"
         />
-        <p class="text-gray-600 text-lg">Товары не найдены</p>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">Товары не найдены</p>
       </div>
 
       <div v-else class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -56,10 +56,10 @@
             </div>
           </template>
 
-          <h3 class="text-lg font-semibold mb-2 text-gray-800">
+          <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">
             {{ product.name }}
           </h3>
-          <p class="text-gray-600 mb-4 line-clamp-2">
+          <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {{ product.description }}
           </p>
           <div class="flex justify-between items-center">

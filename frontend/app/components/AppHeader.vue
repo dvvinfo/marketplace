@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 shadow-lg"
+    class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-800 dark:via-purple-800 dark:to-pink-800 shadow-lg"
   >
     <nav class="container mx-auto px-4 py-4">
       <div class="flex justify-between items-center">
@@ -18,6 +18,15 @@
           >
             Товары
           </NuxtLink>
+
+          <!-- Переключатель темы -->
+          <UButton
+            @click="toggleTheme"
+            variant="ghost"
+            class="text-white hover:bg-white/20"
+            :icon="colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+            square
+          />
 
           <template v-if="isAuthenticated">
             <NuxtLink
@@ -101,6 +110,11 @@
 <script setup lang="ts">
 const { isAuthenticated, user, logout: authLogout, fetchUser } = useAuth();
 const cartStore = useCartStore();
+const colorMode = useColorMode();
+
+const toggleTheme = () => {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
+};
 
 const logout = async () => {
   // Очищаем локальное состояние корзины без API запроса

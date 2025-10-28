@@ -3,6 +3,12 @@ export default defineAppConfig({
     primary: 'purple',
     gray: 'neutral',
     
+    // Настройки темной темы
+    colors: {
+      primary: 'purple',
+      gray: 'neutral',
+    },
+    
     // Настройки по умолчанию для инпутов
     input: {
       default: {

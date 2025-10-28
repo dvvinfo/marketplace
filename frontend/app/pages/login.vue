@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4 sm:px-6 lg:px-8"
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8"
   >
     <div
-      class="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl border border-gray-100"
+      class="max-w-md w-full bg-white dark:bg-gray-800 p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700"
     >
       <div class="text-center mb-8">
         <div
@@ -23,8 +23,8 @@
             />
           </svg>
         </div>
-        <h2 class="text-3xl font-bold text-gray-900 mb-2">Вход в аккаунт</h2>
-        <p class="text-gray-600">Добро пожаловать обратно!</p>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Вход в аккаунт</h2>
+        <p class="text-gray-600 dark:text-gray-300">Добро пожаловать обратно!</p>
       </div>
 
       <UForm
