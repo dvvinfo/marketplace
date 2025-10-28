@@ -166,7 +166,7 @@ async function onSubmit(event: { data: Schema }) {
   const result = await register(event.data);
 
   if (result.success) {
-    router.push("/");
+    await navigateTo("/");
   } else {
     error.value = result.error || "Ошибка регистрации";
   }

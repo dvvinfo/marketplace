@@ -135,7 +135,7 @@ async function onSubmit(event: { data: Schema }) {
   const result = await login(event.data.email, event.data.password);
 
   if (result.success) {
-    router.push("/");
+    await navigateTo("/");
   } else {
     error.value = result.error || "Неверный email или пароль";
   }

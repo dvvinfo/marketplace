@@ -8,11 +8,10 @@
 </template>
 
 <script setup lang="ts">
-const { fetchUser, isAuthenticated } = useAuth()
+const { fetchUser, isAuthenticated, user } = useAuth()
 
-onMounted(() => {
-  if (isAuthenticated.value) {
-    fetchUser()
-  }
-})
+// Загружаем пользователя при инициализации приложения
+if (process.client && isAuthenticated.value && !user.value) {
+  await fetchUser()
+}
 </script>

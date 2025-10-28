@@ -10,17 +10,17 @@ export const useAuth = () => {
     const { apiFetch } = useApi()
     
     try {
-      const response = await apiFetch<{ access_token: string; user: any }>('/auth/login', {
+      const response = await apiFetch<{ accessToken: string; user: any }>('/auth/login', {
         method: 'POST',
         body: { email, password },
       })
 
-      token.value = response.access_token
+      token.value = response.accessToken
       user.value = response.user
 
       return { success: true }
     } catch (error: any) {
-      return { success: false, error: error.message }
+      return { success: false, error: error.message || 'Неверный email или пароль' }
     }
   }
 
@@ -33,24 +33,29 @@ export const useAuth = () => {
     const { apiFetch } = useApi()
     
     try {
-      const response = await apiFetch<{ access_token: string; user: any }>('/auth/register', {
+      const response = await apiFetch<{ accessToken: string; user: any }>('/auth/register', {
         method: 'POST',
-        body: data,
+        body: {
+          email: data.email,
+          password: data.password,
+          nameFirst: data.firstName,
+          nameLast: data.lastName,
+        },
       })
 
-      token.value = response.access_token
+      token.value = response.accessToken
       user.value = response.user
 
       return { success: true }
     } catch (error: any) {
-      return { success: false, error: error.message }
+      return { success: false, error: error.message || 'Ошибка регистрации' }
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
     token.value = null
     user.value = null
-    navigateTo('/login')
+    await navigateTo('/login')
   }
 
   const fetchUser = async () => {
@@ -60,8 +65,15 @@ export const useAuth = () => {
     
     try {
       user.value = await apiFetch('/auth/profile')
-    } catch (error) {
-      logout()
+    } catch (error: any) {
+      // Только если токен невалидный (401), разлогиниваем
+      if (error?.statusCode === 401 || error?.status === 401) {
+        console.error('Token invalid, logging out')
+        token.value = null
+        user.value = null
+      } else {
+        console.error('Failed to fetch user, but keeping token:', error)
+      }
     }
   }
 
