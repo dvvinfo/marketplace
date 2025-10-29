@@ -24,6 +24,7 @@ logs/
 # Documentation (optional - uncomment if you don't want to commit these)
 # ОТВЕТЫ-НА-ВОПРОСЫ.md
 # КРАТКОЕ-РЕЗЮМЕ.md
+# FRONTEND-BACKEND-INTEGRATION-PLAN.md
 
 # Node modules (handled by backend/frontend .gitignore)
 node_modules/

@@ -4,7 +4,8 @@ Full-stack marketplace application with microservices backend and Nuxt.js fronte
 
 ## 🎉 What's New
 
-**Frontend is ready!** 
+**Frontend is ready!**
+
 - ✅ Nuxt 3 frontend with TypeScript
 - ✅ Auto-generated types from Swagger
 - ✅ Authentication & Shopping Cart
@@ -12,6 +13,7 @@ Full-stack marketplace application with microservices backend and Nuxt.js fronte
 - ✅ Micro frontends FAQ (and why you don't need them)
 
 **Quick links:**
+
 - 🇷🇺 [КРАТКОЕ-РЕЗЮМЕ.md](./КРАТКОЕ-РЕЗЮМЕ.md) - Краткое резюме (на русском)
 - 🇷🇺 [ОТВЕТЫ-НА-ВОПРОСЫ.md](./ОТВЕТЫ-НА-ВОПРОСЫ.md) - Подробные ответы на ваши вопросы (на русском)
 - 🇷🇺 [РЕЖИМЫ-РАБОТЫ.md](./РЕЖИМЫ-РАБОТЫ.md) - Все режимы работы (Development/Production/Local)
@@ -21,12 +23,14 @@ Full-stack marketplace application with microservices backend and Nuxt.js fronte
 ## Quick Start
 
 ### Prerequisites
+
 - Docker and Docker Compose
 - Node.js 20+ (for local development - optional)
 
 ### 🔥 Development Mode (Recommended)
 
 **With Hot-Reload in Docker:**
+
 ```bash
 # Windows
 START-DEV.bat
@@ -36,6 +40,7 @@ START-DEV.bat
 ```
 
 Features:
+
 - ✅ Hot-reload for all services
 - ✅ Edit code and see changes instantly
 - ✅ No local Node.js setup needed
@@ -43,6 +48,7 @@ Features:
 ### 🚀 Production Mode
 
 **Everything in Containers:**
+
 ```bash
 # Windows
 START-ALL.bat
@@ -52,6 +58,7 @@ START-ALL.bat
 ```
 
 Features:
+
 - ✅ Production builds
 - ✅ Optimized performance
 
@@ -71,6 +78,7 @@ cd frontend && npm install && npm run dev
 ```
 
 Features:
+
 - ✅ Hot-reload
 - ✅ Easy debugging
 
@@ -87,6 +95,7 @@ After starting, the following services will be available:
 - **RabbitMQ AMQP**: localhost:5672
 
 **Backend Microservices** (internal, communicate via RabbitMQ):
+
 - Product Service
 - Order Service
 - User Service
@@ -96,11 +105,13 @@ After starting, the following services will be available:
 ### Stop Everything
 
 **Windows:**
+
 ```bash
 STOP-ALL.bat
 ```
 
 **Linux/Mac:**
+
 ```bash
 ./STOP-ALL.sh
 ```
@@ -112,6 +123,7 @@ docker-compose logs -f
 ```
 
 View specific service logs:
+
 ```bash
 docker-compose logs -f marketplace_frontend
 ```
@@ -119,6 +131,7 @@ docker-compose logs -f marketplace_frontend
 ## Documentation
 
 ### 📖 Main Guides
+
 - **[QUICK-CHECKLIST.md](./QUICK-CHECKLIST.md)** - ⚡ Quick start checklist (5 minutes)
 - **[GETTING-STARTED.md](./GETTING-STARTED.md)** - 🚀 Complete setup guide
 - **[MODES.md](./MODES.md)** - 🔥 Development modes comparison (Dev/Prod/Hybrid)
@@ -126,6 +139,7 @@ docker-compose logs -f marketplace_frontend
 - **[COMMANDS.md](./COMMANDS.md)** - 📝 Command cheat sheet
 
 ### 🎨 Frontend
+
 - **[FRONTEND-SETUP.md](./FRONTEND-SETUP.md)** - Frontend setup and development guide
 - **[FRONTEND-SUMMARY.md](./FRONTEND-SUMMARY.md)** - Quick summary of frontend architecture
 - **[MICROFRONTENDS-FAQ.md](./MICROFRONTENDS-FAQ.md)** - Micro frontends explained (and why you don't need them)
@@ -133,10 +147,12 @@ docker-compose logs -f marketplace_frontend
 - **[frontend/SWAGGER-TYPES.md](./frontend/SWAGGER-TYPES.md)** - TypeScript types generation
 
 ### ⚙️ Backend
+
 - **[backend/README.md](./backend/README.md)** - Backend microservices documentation
 - **[backend/QUICK-START.md](./backend/QUICK-START.md)** - Backend quick start guide
 
 ### 🏗️ Architecture
+
 - **[PROJECT-STRUCTURE.md](./PROJECT-STRUCTURE.md)** - Complete project structure overview
 - **[ARCHITECTURE-VISUAL.md](./ARCHITECTURE-VISUAL.md)** - Visual architecture diagrams and data flow
 
@@ -174,6 +190,7 @@ docker-compose logs -f marketplace_frontend
 ### Local Development (without Docker)
 
 **Backend:**
+
 ```bash
 cd backend
 npm install
@@ -186,6 +203,7 @@ START-ALL.bat  # or START-ALL.sh on Linux/Mac
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm install
@@ -198,6 +216,7 @@ npm run dev
 ```
 
 Or use the quick start script:
+
 ```bash
 # Windows
 START-FRONTEND.bat
@@ -209,6 +228,7 @@ START-FRONTEND.bat
 ### Docker Development
 
 Everything runs in containers:
+
 ```bash
 # From project root
 START-ALL.bat  # or START-ALL.sh
@@ -252,35 +272,16 @@ See `backend/.env` for backend configuration.
 
 ### Frontend Pages
 
-- `/` - Home page with products
-- `/login` - User login
-- `/register` - User registration
-- `/cart` - Shopping cart
-- `/products` - Product catalog (TODO)
-- `/products/[id]` - Product details (TODO)
-- `/checkout` - Checkout process (TODO)
-- `/orders` - Order history (TODO)
-- `/profile` - User profile (TODO)
-- `/admin` - Admin panel (TODO)
+- ✅ `/` - Home page with products
+- ✅ `/login` - User login
+- ✅ `/register` - User registration
+- ✅ `/cart` - Shopping cart
+- ✅ `/products/[id]` - Product details with reviews
+- ⏳ `/products` - Product catalog with filters (TODO)
+- ⏳ `/checkout` - Checkout process (TODO)
+- ⏳ `/orders` - Order history (TODO)
+- ⏳ `/profile` - User profile (TODO)
+- ⏳ `/admin` - Admin panel (TODO)
 
-## 🤔 Микрофронтенды (Micro Frontends)?
+**Latest:** Product page with reviews is ready! See [STAGE-1-SUMMARY.md](./STAGE-1-SUMMARY.md)
 
-**Не рекомендуется** для этого проекта, потому что:
-
-❌ **Не нужно:**
-- Команда небольшая
-- Единый стек технологий (Vue/Nuxt)
-- Проще разрабатывать монолит
-- Бэкенд уже микросервисный
-
-✅ **Что используем вместо этого:**
-- Модульная структура Nuxt
-- Composables для переиспользования логики
-- Pinia stores для состояния
-- Компоненты для UI
-
-**Когда стоит использовать микрофронтенды:**
-- Большая команда (10+ разработчиков)
-- Разные команды работают над разными модулями
-- Нужны независимые релизы модулей
-- Разные части используют разные фреймворки (React + Vue + Angular)

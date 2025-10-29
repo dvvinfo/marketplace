@@ -14,10 +14,14 @@ export const useCartStore = defineStore('cart', {
   actions: {
     async fetchCart() {
       const { apiFetch } = useApi()
+      const { user } = useAuth()
+      
+      if (!user.value) return
+      
       this.loading = true
 
       try {
-        const response = await apiFetch<any>('/cart')
+        const response = await apiFetch<any>(`/cart/user/${user.value.id}`)
         this.items = response.items || []
       } catch (error) {
         console.error('Failed to fetch cart:', error)
@@ -28,11 +32,16 @@ export const useCartStore = defineStore('cart', {
 
     async addItem(productId: number, quantity: number = 1) {
       const { apiFetch } = useApi()
+      const { user } = useAuth()
+      
+      if (!user.value) {
+        throw new Error('User not authenticated')
+      }
 
       try {
-        await apiFetch('/cart/items', {
+        await apiFetch('/cart/add', {
           method: 'POST',
-          body: { productId, quantity },
+          body: { userId: user.value.id, productId, quantity },
         })
         await this.fetchCart()
       } catch (error) {
@@ -45,8 +54,8 @@ export const useCartStore = defineStore('cart', {
       const { apiFetch } = useApi()
 
       try {
-        await apiFetch(`/cart/items/${itemId}`, {
-          method: 'PATCH',
+        await apiFetch(`/cart/item/${itemId}`, {
+          method: 'PUT',
           body: { quantity },
         })
         await this.fetchCart()
@@ -60,7 +69,7 @@ export const useCartStore = defineStore('cart', {
       const { apiFetch } = useApi()
 
       try {
-        await apiFetch(`/cart/items/${itemId}`, {
+        await apiFetch(`/cart/item/${itemId}`, {
           method: 'DELETE',
         })
         await this.fetchCart()
@@ -72,9 +81,12 @@ export const useCartStore = defineStore('cart', {
 
     async clearCart() {
       const { apiFetch } = useApi()
+      const { user } = useAuth()
+      
+      if (!user.value) return
 
       try {
-        await apiFetch('/cart', {
+        await apiFetch(`/cart/user/${user.value.id}/clear`, {
           method: 'DELETE',
         })
         this.items = []
