@@ -16,7 +16,14 @@
             to="/"
             class="text-white hover:text-gray-100 font-medium transition-colors"
           >
-            Товары
+            Главная
+          </NuxtLink>
+
+          <NuxtLink
+            to="/products"
+            class="text-white hover:text-gray-100 font-medium transition-colors"
+          >
+            Каталог
           </NuxtLink>
 
           <!-- Переключатель темы -->
