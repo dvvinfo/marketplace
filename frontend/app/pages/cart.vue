@@ -16,7 +16,7 @@
         <UButton 
           to="/"
           size="lg"
-          class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
         >
           Перейти к покупкам
         </UButton>
@@ -32,9 +32,9 @@
             <div class="flex gap-4">
               <div class="relative overflow-hidden rounded-lg">
                 <img
-                  v-if="item.product.imageUrl"
-                  :src="item.product.imageUrl"
-                  :alt="item.product.name"
+                  v-if="getItemImage(item)"
+                  :src="getItemImage(item)"
+                  :alt="getItemName(item)"
                   class="w-24 h-24 object-cover"
                 />
                 <div v-else class="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center rounded-lg">
@@ -43,8 +43,8 @@
               </div>
 
               <div class="flex-1">
-                <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-100">{{ item.product.name }}</h3>
-                <p class="text-gray-600 dark:text-gray-300">{{ item.product.price }} ₽</p>
+                <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-100">{{ getItemName(item) }}</h3>
+                <p class="text-gray-600 dark:text-gray-300">{{ getItemPrice(item) }} ₽</p>
 
                 <div class="flex items-center gap-3 mt-3">
                   <UButton
@@ -68,7 +68,7 @@
 
               <div class="text-right">
                 <p class="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                  {{ (item.product.price * item.quantity).toFixed(2) }} ₽
+                  {{ (getItemPrice(item) * item.quantity).toFixed(2) }} ₽
                 </p>
                 <UButton
                   color="error"
@@ -106,10 +106,10 @@
 
             <template #footer>
               <UButton 
+                to="/checkout"
                 block 
-                @click="checkout"
                 size="lg"
-                class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
               >
                 Оформить заказ
               </UButton>
@@ -127,11 +127,23 @@ definePageMeta({
 });
 
 const cartStore = useCartStore();
-const router = useRouter();
 
 onMounted(() => {
   cartStore.fetchCart();
 });
+
+// Вспомогательные функции для работы с разными структурами данных
+const getItemName = (item: any) => {
+  return item.product?.name || item.product?.title || item.name || 'Товар';
+};
+
+const getItemPrice = (item: any) => {
+  return item.product?.price || item.price || 0;
+};
+
+const getItemImage = (item: any) => {
+  return item.product?.imageUrl || item.product?.image || item.imageUrl || item.image || null;
+};
 
 const updateQuantity = async (itemId: number, quantity: number) => {
   await cartStore.updateQuantity(itemId, quantity);
@@ -139,9 +151,5 @@ const updateQuantity = async (itemId: number, quantity: number) => {
 
 const removeItem = async (itemId: number) => {
   await cartStore.removeItem(itemId);
-};
-
-const checkout = () => {
-  router.push("/checkout");
 };
 </script>

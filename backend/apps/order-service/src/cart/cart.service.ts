@@ -25,7 +25,7 @@ export class CartService {
     private readonly productClient: ClientProxy,
   ) {}
 
-  async getCartByUserId(userId: number): Promise<Cart> {
+  async getCartByUserId(userId: number): Promise<any> {
     let cart = await this.cartRepository.findOne({
       where: { userId },
       relations: ['items'],
@@ -36,10 +36,53 @@ export class CartService {
       cart = await this.cartRepository.save(cart);
     }
 
-    return cart;
+    // Обогащаем данные корзины информацией о продуктах
+    const enrichedItems = await Promise.all(
+      cart.items.map(async (item) => {
+        try {
+          const productResponse = await firstValueFrom(
+            this.productClient.send(RABBITMQ_PATTERNS.GET_PRODUCT, item.productId),
+          );
+
+          if (productResponse.success && productResponse.data) {
+            return {
+              ...item,
+              product: {
+                id: productResponse.data.id,
+                name: productResponse.data.title,
+                title: productResponse.data.title,
+                price: productResponse.data.price,
+                image: productResponse.data.image,
+                imageUrl: productResponse.data.image,
+              },
+            };
+          }
+        } catch (error) {
+          console.error(`Failed to fetch product ${item.productId}:`, error);
+        }
+
+        // Если не удалось получить продукт, возвращаем item с базовой информацией
+        return {
+          ...item,
+          product: {
+            id: item.productId,
+            name: 'Product',
+            title: 'Product',
+            price: item.price,
+            image: null,
+            imageUrl: null,
+          },
+        };
+      }),
+    );
+
+    return {
+      ...cart,
+      items: enrichedItems,
+    };
   }
 
-  async addToCart(addToCartDto: AddToCartDto): Promise<Cart> {
+  async addToCart(addToCartDto: AddToCartDto): Promise<any> {
     const { userId, productId, quantity } = addToCartDto;
 
     const productResponse = await firstValueFrom(
@@ -103,7 +146,7 @@ export class CartService {
   async updateCartItem(
     cartItemId: number,
     updateDto: UpdateCartItemDto,
-  ): Promise<Cart> {
+  ): Promise<any> {
     const cartItem = await this.cartItemRepository.findOne({
       where: { id: cartItemId },
     });
@@ -138,7 +181,7 @@ export class CartService {
     return await this.recalculateCart(cartItem.cartId);
   }
 
-  async removeCartItem(cartItemId: number): Promise<Cart> {
+  async removeCartItem(cartItemId: number): Promise<any> {
     const cartItem = await this.cartItemRepository.findOne({
       where: { id: cartItemId },
     });
@@ -168,7 +211,7 @@ export class CartService {
     await this.cartRepository.save(cart);
   }
 
-  private async recalculateCart(cartId: number): Promise<Cart> {
+  private async recalculateCart(cartId: number): Promise<any> {
     const cart = await this.cartRepository.findOne({
       where: { id: cartId },
       relations: ['items'],
@@ -184,6 +227,8 @@ export class CartService {
     );
 
     await this.cartRepository.save(cart);
-    return cart;
+
+    // Обогащаем данные корзины информацией о продуктах
+    return await this.getCartByUserId(cart.userId);
   }
 }

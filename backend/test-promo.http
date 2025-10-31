@@ -1,0 +1,29 @@
+### Получить все промокоды
+GET http://localhost:3000/promo-codes
+Content-Type: application/json
+
+### Получить активные промокоды
+GET http://localhost:3000/promo-codes/active
+Content-Type: application/json
+
+### Проверить промокод SALE20
+POST http://localhost:3000/promo-codes/validate
+Content-Type: application/json
+
+{
+  "code": "SALE20",
+  "orderAmount": 1000
+}
+
+### Создать промокод SALE20
+POST http://localhost:3000/promo-codes
+Content-Type: application/json
+
+{
+  "code": "SALE20",
+  "discountType": "percentage",
+  "discountValue": 20,
+  "validFrom": "2025-01-01",
+  "validUntil": "2025-12-31",
+  "isActive": true
+}
