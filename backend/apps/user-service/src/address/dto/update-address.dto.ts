@@ -1,12 +1,24 @@
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, MinLength } from 'class-validator';
 
 export class UpdateAddressDto {
   @IsOptional()
   @IsString()
-  street?: string;
+  @MinLength(2)
+  fullName?: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(5)
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(2)
+  country?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(2)
   city?: string;
 
   @IsOptional()
@@ -15,11 +27,17 @@ export class UpdateAddressDto {
 
   @IsOptional()
   @IsString()
+  @MinLength(3)
   postalCode?: string;
 
   @IsOptional()
   @IsString()
-  country?: string;
+  @MinLength(5)
+  addressLine1?: string;
+
+  @IsOptional()
+  @IsString()
+  addressLine2?: string;
 
   @IsOptional()
   @IsBoolean()

@@ -50,7 +50,15 @@
             </NuxtLink>
 
             <UPopover>
-              <UButton variant="ghost" class="text-white hover:bg-white/20">
+              <UButton variant="ghost" class="text-white hover:bg-white/20 flex items-center gap-2">
+                <!-- Аватар -->
+                <UAvatar
+                  :src="user?.avatar || undefined"
+                  :alt="user?.nameFirst"
+                  size="sm"
+                  icon="i-heroicons-user"
+                  class="ring-2 ring-white"
+                />
                 {{ user?.nameFirst || "Аккаунт" }}
                 <UIcon name="i-heroicons-chevron-down" class="w-4 h-4 ml-1" />
               </UButton>

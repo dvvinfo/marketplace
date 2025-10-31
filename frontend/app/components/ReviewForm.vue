@@ -171,8 +171,14 @@ const submitReview = async () => {
 
     let errorMessage = "Не удалось отправить отзыв";
 
-    if (error.statusCode === 409) {
+    if (error.statusCode === 409 || error.status === 409) {
       errorMessage = "Вы уже оставили отзыв на этот товар";
+    } else if (error.statusCode === 401 || error.status === 401) {
+      errorMessage = "Пожалуйста, войдите в аккаунт чтобы оставить отзыв";
+    } else if (error.statusCode === 400 || error.status === 400) {
+      errorMessage = "Пожалуйста, заполните все поля корректно";
+    } else {
+      errorMessage = "Не удалось отправить отзыв. Попробуйте позже";
     }
 
     toast.add({

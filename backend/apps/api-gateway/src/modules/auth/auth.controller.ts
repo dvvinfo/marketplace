@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Put,
   Body,
   UseGuards,
   Request,
@@ -54,7 +55,27 @@ export class AuthController {
   @ApiOperation({ summary: 'Get current user profile' })
   @ApiResponse({ status: 200, description: 'Returns user profile' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getProfile(@Request() req: { user: { id: number; email: string } }) {
-    return req.user;
+  async getProfile(@Request() req: { user: { id: number; email: string } }) {
+    // Загружаем полные данные пользователя из User Service
+    return await this.authService.getProfile(req.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('change-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Change user password' })
+  @ApiResponse({ status: 200, description: 'Password changed successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid old password' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async changePassword(
+    @Request() req: { user: { id: number; email: string } },
+    @Body() body: { oldPassword: string; newPassword: string },
+  ) {
+    return await this.authService.changePassword(
+      req.user.id,
+      body.oldPassword,
+      body.newPassword,
+    );
   }
 }

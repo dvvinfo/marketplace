@@ -25,6 +25,10 @@ export class CreateUserDto {
   @MinLength(1)
   nameLast: string;
 
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
   @IsISO8601()
   @IsOptional()
   birthDate?: Date;

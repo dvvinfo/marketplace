@@ -11,6 +11,14 @@ export class UpdateUserDto {
   nameLast?: string;
 
   @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+
+  @IsOptional()
   @IsDateString()
   birthDate?: string;
 

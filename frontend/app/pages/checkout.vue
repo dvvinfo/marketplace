@@ -394,9 +394,18 @@ const applyPromoCode = async () => {
       });
     }
   } catch (err: any) {
+    console.error("Promo code validation error:", err);
+    
+    let errorMessage = "Не удалось проверить промокод";
+    if (err.statusCode === 404 || err.status === 404) {
+      errorMessage = "Промокод не найден";
+    } else if (err.statusCode === 400 || err.status === 400) {
+      errorMessage = "Промокод недействителен или истек";
+    }
+    
     toast.add({
       title: "Ошибка",
-      description: err.message || "Не удалось проверить промокод",
+      description: errorMessage,
       color: "error",
     });
   } finally {
@@ -493,10 +502,22 @@ const createOrder = async () => {
     });
   } catch (err: any) {
     console.error("Failed to create order:", err);
-    error.value = err.message || "Не удалось оформить заказ. Попробуйте снова.";
+    
+    let errorMessage = "Не удалось оформить заказ. Попробуйте снова";
+    if (err.statusCode === 400 || err.status === 400) {
+      errorMessage = "Пожалуйста, проверьте правильность заполнения всех полей";
+    } else if (err.statusCode === 401 || err.status === 401) {
+      errorMessage = "Сессия истекла. Пожалуйста, войдите снова";
+    } else if (err.statusCode === 404 || err.status === 404) {
+      errorMessage = "Некоторые товары больше недоступны";
+    } else if (err.statusCode === 409 || err.status === 409) {
+      errorMessage = "Недостаточно товара на складе";
+    }
+    
+    error.value = errorMessage;
     toast.add({
       title: "Ошибка",
-      description: error.value,
+      description: errorMessage,
       color: "error",
     });
   } finally {

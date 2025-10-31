@@ -4,27 +4,36 @@ import {
   IsISO8601,
   IsNotEmpty,
   IsEnum,
+  IsOptional,
   MinLength,
 } from 'class-validator';
 
 import { E_Gender } from '../types';
 
 export class UpdateUserDto {
-  @IsEmail()
-  email: string;
-
+  @IsOptional()
   @IsString()
   @MinLength(1)
-  nameFirst: string;
+  nameFirst?: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(1)
-  nameLast: string;
+  nameLast?: string;
 
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+
+  @IsOptional()
   @IsISO8601()
-  birthDate: Date;
+  birthDate?: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(E_Gender)
-  gender: E_Gender;
+  gender?: E_Gender;
 }

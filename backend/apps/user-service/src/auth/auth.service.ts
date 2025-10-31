@@ -65,6 +65,15 @@ export class AuthService {
     return userWithoutPassword;
   }
 
+  async changePassword(
+    userId: number,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<{ message: string }> {
+    await this.userService.changePassword(userId, oldPassword, newPassword);
+    return { message: 'Password changed successfully' };
+  }
+
   private generateToken(userId: number, email: string): string {
     const payload = { sub: userId, email };
     return this.jwtService.sign(payload);

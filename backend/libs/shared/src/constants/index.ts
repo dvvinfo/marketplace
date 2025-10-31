@@ -68,6 +68,7 @@ export const RABBITMQ_PATTERNS = {
   AUTH_LOGIN: 'auth_login',
   AUTH_VALIDATE_TOKEN: 'auth_validate_token',
   AUTH_VALIDATE_USER: 'auth_validate_user',
+  AUTH_CHANGE_PASSWORD: 'auth_change_password',
 
   // Address Service
   GET_ALL_ADDRESSES: 'get_all_addresses',

@@ -19,6 +19,12 @@ export class User {
   @Column({ name: 'name_last', type: 'varchar' })
   nameLast: string;
 
+  @Column({ name: 'phone', type: 'varchar', nullable: true })
+  phone: string | null;
+
+  @Column({ name: 'avatar', type: 'varchar', nullable: true })
+  avatar: string | null;
+
   @Column({ name: 'birth_date', type: 'timestamp', nullable: true })
   birthDate: Date;
 

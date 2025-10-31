@@ -42,4 +42,29 @@ export class AuthService {
     );
     return response.data;
   }
+
+  async getProfile(userId: number) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.GET_USER, userId),
+    );
+    
+    // Убираем пароль из ответа
+    const { password, ...userWithoutPassword } = response.data;
+    return userWithoutPassword;
+  }
+
+  async changePassword(
+    userId: number,
+    oldPassword: string,
+    newPassword: string,
+  ) {
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.AUTH_CHANGE_PASSWORD, {
+        userId,
+        oldPassword,
+        newPassword,
+      }),
+    );
+    return response.data;
+  }
 }

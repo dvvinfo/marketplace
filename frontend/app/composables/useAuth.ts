@@ -64,7 +64,9 @@ export const useAuth = () => {
     const { apiFetch } = useApi()
     
     try {
-      user.value = await apiFetch('/auth/profile')
+      const userData = await apiFetch('/auth/profile')
+      console.log('Fetched user data:', userData)
+      user.value = userData
     } catch (error: any) {
       // Только если токен невалидный (401), разлогиниваем
       if (error?.statusCode === 401 || error?.status === 401) {

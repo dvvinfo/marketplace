@@ -4,6 +4,7 @@ import { RABBITMQ_PATTERNS } from '@app/shared';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller()
 export class AuthController {
@@ -52,6 +53,21 @@ export class AuthController {
         payload.password,
       );
       return { success: true, data: user };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
+    }
+  }
+
+  @MessagePattern(RABBITMQ_PATTERNS.AUTH_CHANGE_PASSWORD)
+  async changePassword(@Payload() changePasswordDto: ChangePasswordDto) {
+    try {
+      const result = await this.authService.changePassword(
+        changePasswordDto.userId,
+        changePasswordDto.oldPassword,
+        changePasswordDto.newPassword,
+      );
+      return { success: true, data: result };
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       return { success: false, error: message };

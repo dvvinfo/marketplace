@@ -1,13 +1,29 @@
-import { IsInt, IsString, IsOptional, IsBoolean } from 'class-validator';
+import {
+  IsInt,
+  IsString,
+  IsOptional,
+  IsBoolean,
+  MinLength,
+} from 'class-validator';
 
 export class CreateAddressDto {
   @IsInt()
   userId: number;
 
   @IsString()
-  street: string;
+  @MinLength(2)
+  fullName: string;
 
   @IsString()
+  @MinLength(5)
+  phone: string;
+
+  @IsString()
+  @MinLength(2)
+  country: string;
+
+  @IsString()
+  @MinLength(2)
   city: string;
 
   @IsOptional()
@@ -15,10 +31,16 @@ export class CreateAddressDto {
   state?: string;
 
   @IsString()
+  @MinLength(3)
   postalCode: string;
 
   @IsString()
-  country: string;
+  @MinLength(5)
+  addressLine1: string;
+
+  @IsOptional()
+  @IsString()
+  addressLine2?: string;
 
   @IsOptional()
   @IsBoolean()

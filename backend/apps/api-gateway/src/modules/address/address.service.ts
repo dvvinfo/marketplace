@@ -16,6 +16,9 @@ export class AddressService {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.GET_ALL_ADDRESSES, {}),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to get addresses');
+    }
     return response.data;
   }
 
@@ -23,6 +26,9 @@ export class AddressService {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.GET_ADDRESS, id),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to get address');
+    }
     return response.data;
   }
 
@@ -30,6 +36,9 @@ export class AddressService {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.GET_USER_ADDRESSES, userId),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to get user addresses');
+    }
     return response.data;
   }
 
@@ -37,22 +46,20 @@ export class AddressService {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.GET_DEFAULT_ADDRESS, userId),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to get default address');
+    }
     return response.data;
   }
 
   async createAddress(addressData: CreateAddressDto) {
-    try {
-      const response = await firstValueFrom(
-        this.userClient.send(RABBITMQ_PATTERNS.CREATE_ADDRESS, addressData),
-      );
-      if (!response.success) {
-        throw new Error(response.error || 'Failed to create address');
-      }
-      return response.data;
-    } catch (error) {
-      console.error('Error creating address:', error);
-      throw error;
+    const response = await firstValueFrom(
+      this.userClient.send(RABBITMQ_PATTERNS.CREATE_ADDRESS, addressData),
+    );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to create address');
     }
+    return response.data;
   }
 
   async updateAddress(
@@ -67,6 +74,9 @@ export class AddressService {
         data: addressData,
       }),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to update address');
+    }
     return response.data;
   }
 
@@ -77,12 +87,18 @@ export class AddressService {
         userId,
       }),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to set default address');
+    }
     return response.data;
   }
 
   async deleteAddress(id: number, userId: number): Promise<void> {
-    await firstValueFrom(
+    const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.DELETE_ADDRESS, { id, userId }),
     );
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to delete address');
+    }
   }
 }
