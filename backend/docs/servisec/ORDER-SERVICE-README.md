@@ -128,14 +128,24 @@ Invoke-RestMethod -Uri http://localhost:3000/orders -Method POST -ContentType "a
       "productId": 1,
       "quantity": 2,
       "price": 899.99,
-      "subtotal": 1799.98
+      "subtotal": 1799.98,
+      "product": {
+        "id": 1,
+        "name": "iPhone 15 Pro",
+        "imageUrl": "https://example.com/iphone.jpg"
+      }
     },
     {
       "id": 2,
       "productId": 2,
       "quantity": 1,
       "price": 899.99,
-      "subtotal": 899.99
+      "subtotal": 899.99,
+      "product": {
+        "id": 2,
+        "name": "Samsung Galaxy S24",
+        "imageUrl": "https://example.com/samsung.jpg"
+      }
     }
   ],
   "createdAt": "2025-10-24T12:00:00.000Z"
@@ -251,6 +261,31 @@ await productClient.send('update_stock', {
 
 ```typescript
 const price = product.discountPrice || product.price;
+```
+
+### 4. Обогащение данных о товарах (NEW!)
+
+При получении заказа автоматически загружается информация о товарах:
+- Название товара
+- Изображение товара
+- ID товара
+
+Это позволяет фронтенду отображать заказы с полной информацией о товарах без дополнительных запросов.
+
+```typescript
+// Каждый item в заказе содержит вложенный объект product
+{
+  "id": 1,
+  "productId": 1,
+  "quantity": 2,
+  "price": 899.99,
+  "subtotal": 1799.98,
+  "product": {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "imageUrl": "https://example.com/iphone.jpg"
+  }
+}
 ```
 
 ## 📝 DTO (Data Transfer Objects)

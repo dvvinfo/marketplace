@@ -46,15 +46,58 @@ export class OrderService {
       throw new NotFoundException(`Order with ID ${id} not found`);
     }
 
+    // Обогащаем items информацией о товарах
+    await this.enrichOrderItemsWithProducts(order);
+
     return order;
   }
 
+  private async enrichOrderItemsWithProducts(order: Order): Promise<void> {
+    if (!order.items || order.items.length === 0) {
+      return;
+    }
+
+    const productPromises = order.items.map(async (item) => {
+      try {
+        const productResponse = await firstValueFrom(
+          this.productClient.send<ServiceResponse<ProductResponse>>(
+            RABBITMQ_PATTERNS.GET_PRODUCT,
+            item.productId,
+          ),
+        );
+
+        if (productResponse.success && productResponse.data) {
+          const product = productResponse.data;
+          (item as any).product = {
+            id: product.id,
+            name: product.title,
+            imageUrl: product.image,
+          };
+        }
+      } catch (error) {
+        console.error(
+          `Failed to fetch product ${item.productId}:`,
+          error.message,
+        );
+      }
+    });
+
+    await Promise.all(productPromises);
+  }
+
   async getOrdersByUserId(userId: number): Promise<Order[]> {
-    return await this.orderRepository.find({
+    const orders = await this.orderRepository.find({
       where: { userId },
       relations: ['items'],
       order: { createdAt: 'DESC' },
     });
+
+    // Обогащаем каждый заказ информацией о товарах
+    await Promise.all(
+      orders.map((order) => this.enrichOrderItemsWithProducts(order)),
+    );
+
+    return orders;
   }
 
   async createOrder(orderData: CreateOrderDto): Promise<Order> {
