@@ -9,6 +9,12 @@ export default defineAppConfig({
       gray: 'neutral',
     },
     
+    // Настройки для Toast уведомлений
+    notifications: {
+      position: 'top-0 right-0',
+      timeout: 3000, // 3 секунды
+    },
+    
     // Настройки по умолчанию для инпутов
     input: {
       default: {

@@ -364,7 +364,6 @@ const applyPromoCode = async () => {
   }
 
   promoLoading.value = true;
-  error.value = "";
 
   try {
     const response = await apiFetch<any>("/promo-codes/validate", {
@@ -387,9 +386,23 @@ const applyPromoCode = async () => {
         color: "success",
       });
     } else {
+      // Переводим сообщение с бэкенда на русский
+      let errorMsg = "Промокод недействителен";
+      if (response.message === "Invalid promo code") {
+        errorMsg = "Неверный промокод";
+      } else if (response.message === "Promo code expired") {
+        errorMsg = "Промокод истек";
+      } else if (response.message === "Promo code not active") {
+        errorMsg = "Промокод неактивен";
+      } else if (response.message) {
+        errorMsg = response.message;
+      }
+      
+      discount.value = 0;
+      
       toast.add({
-        title: "Ошибка",
-        description: "Промокод недействителен",
+        title: "Промокод не применен",
+        description: errorMsg,
         color: "error",
       });
     }
@@ -402,6 +415,8 @@ const applyPromoCode = async () => {
     } else if (err.statusCode === 400 || err.status === 400) {
       errorMessage = "Промокод недействителен или истек";
     }
+    
+    discount.value = 0;
     
     toast.add({
       title: "Ошибка",

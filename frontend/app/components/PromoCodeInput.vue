@@ -38,6 +38,7 @@
         </UButton>
       </div>
 
+      <!-- Сообщение об успехе -->
       <div v-if="discount > 0" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
         <div class="flex items-center gap-2 text-green-700 dark:text-green-400">
           <UIcon name="i-heroicons-check-circle" class="w-5 h-5" />
