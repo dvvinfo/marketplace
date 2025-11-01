@@ -14,11 +14,8 @@
         </p>
       </div>
 
-      <div v-if="pending" class="text-center py-12">
-        <div
-          class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
-        ></div>
-        <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка товаров...</p>
+      <div v-if="pending" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <USkeleton v-for="i in 8" :key="i" class="h-96" />
       </div>
 
       <div
@@ -112,6 +109,10 @@ const addingToCart = ref<Record<number, boolean>>({});
 
 // Загружаем товары и корзину при монтировании компонента (только на клиенте)
 onMounted(async () => {
+  // Минимальная задержка для демонстрации skeleton loaders
+  const minLoadingTime = 500; // 500ms
+  const startTime = Date.now();
+  
   try {
     console.log('Fetching products...');
     const data = await apiFetch<any[]>('/products');
@@ -124,6 +125,14 @@ onMounted(async () => {
     console.error('Failed to fetch products:', err);
     error.value = err as Error;
   } finally {
+    // Гарантируем минимальное время показа skeleton loaders
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+    
+    if (remainingTime > 0) {
+      await new Promise(resolve => setTimeout(resolve, remainingTime));
+    }
+    
     pending.value = false;
   }
 });

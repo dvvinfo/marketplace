@@ -68,13 +68,32 @@ export const useAuth = () => {
       console.log('Fetched user data:', userData)
       user.value = userData
     } catch (error: any) {
-      // Только если токен невалидный (401), разлогиниваем
-      if (error?.statusCode === 401 || error?.status === 401) {
+      console.error('Failed to fetch user:', error)
+      
+      // При ошибках авторизации или сервера - разлогиниваем
+      const statusCode = error?.statusCode || error?.status
+      
+      if (statusCode === 401 || statusCode === 403) {
+        // Токен невалидный или доступ запрещён
         console.error('Token invalid, logging out')
         token.value = null
         user.value = null
-      } else {
-        console.error('Failed to fetch user, but keeping token:', error)
+        
+        // Редирект на страницу входа только если не на публичных страницах
+        if (process.client) {
+          const publicPages = ['/', '/login', '/register', '/products']
+          const currentPath = window.location.pathname
+          const isPublicPage = publicPages.some(page => currentPath.startsWith(page))
+          
+          if (!isPublicPage) {
+            await navigateTo('/login')
+          }
+        }
+      } else if (statusCode === 500) {
+        // Ошибка сервера - очищаем токен, так как профиль не загружается
+        console.error('Server error, clearing auth')
+        token.value = null
+        user.value = null
       }
     }
   }

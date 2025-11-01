@@ -37,10 +37,9 @@
             </p>
           </div>
 
-          <div v-if="loading" class="text-center py-4">
-            <div
-              class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"
-            ></div>
+          <div v-if="loading" class="space-y-4">
+            <USkeleton class="h-24" />
+            <USkeleton class="h-32" />
           </div>
 
           <div

@@ -17,11 +17,12 @@
         📦 Оформление заказа
       </h1>
 
-      <div v-if="cartStore.loading || loading" class="text-center py-12">
-        <div
-          class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
-        ></div>
-        <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка...</p>
+      <div v-if="cartStore.loading || loading" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+          <USkeleton class="h-96" />
+          <USkeleton class="h-64" />
+        </div>
+        <USkeleton class="h-96" />
       </div>
 
       <div

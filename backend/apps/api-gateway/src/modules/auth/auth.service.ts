@@ -16,21 +16,21 @@ export class AuthService {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.AUTH_REGISTER, registerDto),
     );
-    return response.data;
+    return response?.data || response;
   }
 
   async login(loginDto: LoginDto) {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.AUTH_LOGIN, loginDto),
     );
-    return response.data;
+    return response?.data || response;
   }
 
   async validateToken(token: string) {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.AUTH_VALIDATE_TOKEN, token),
     );
-    return response.data;
+    return response?.data || response;
   }
 
   async validateUser(email: string, password: string) {
@@ -40,13 +40,18 @@ export class AuthService {
         password,
       }),
     );
-    return response.data;
+    return response?.data || response;
   }
 
   async getProfile(userId: number) {
     const response = await firstValueFrom(
       this.userClient.send(RABBITMQ_PATTERNS.GET_USER, userId),
     );
+    
+    // Проверяем, что response.data существует
+    if (!response || !response.data) {
+      throw new Error('User not found');
+    }
     
     // Убираем пароль из ответа
     const { password, ...userWithoutPassword } = response.data;
@@ -65,6 +70,6 @@ export class AuthService {
         newPassword,
       }),
     );
-    return response.data;
+    return response?.data || response;
   }
 }

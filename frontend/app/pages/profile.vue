@@ -10,11 +10,9 @@
       </h1>
 
       <ClientOnly>
-        <div v-if="loading" class="text-center py-12">
-          <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
-          ></div>
-          <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка...</p>
+        <div v-if="loading" class="space-y-6">
+          <USkeleton class="h-64" />
+          <USkeleton class="h-48" />
         </div>
 
         <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -119,11 +117,9 @@
       </div>
       
       <template #fallback>
-        <div class="text-center py-12">
-          <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
-          ></div>
-          <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка профиля...</p>
+        <div class="space-y-6">
+          <USkeleton class="h-64" />
+          <USkeleton class="h-48" />
         </div>
       </template>
       </ClientOnly>

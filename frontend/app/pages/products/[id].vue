@@ -2,9 +2,14 @@
   <div class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
     <div class="container mx-auto px-4 py-8">
       <!-- Loading State -->
-      <div v-if="pending" class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-        <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка товара...</p>
+      <div v-if="pending" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <USkeleton class="h-96" />
+        <div class="space-y-4">
+          <USkeleton class="h-12" />
+          <USkeleton class="h-8" />
+          <USkeleton class="h-24" />
+          <USkeleton class="h-16" />
+        </div>
       </div>
 
       <!-- Error State -->

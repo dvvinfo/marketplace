@@ -5,9 +5,8 @@
         🛒 Корзина
       </h1>
 
-      <div v-if="cartStore.loading" class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-        <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка...</p>
+      <div v-if="cartStore.loading" class="space-y-4">
+        <USkeleton v-for="i in 3" :key="i" class="h-32" />
       </div>
 
       <div v-else-if="cartStore.items.length === 0" class="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">

@@ -46,9 +46,8 @@
           </div>
 
           <!-- Загрузка -->
-          <div v-if="loading" class="text-center py-12">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            <p class="mt-4 text-gray-600 dark:text-gray-300">Загрузка товаров...</p>
+          <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <USkeleton v-for="i in 6" :key="i" class="h-96" />
           </div>
 
           <!-- Пустой результат -->
@@ -203,6 +202,11 @@ const fetchCategories = async () => {
 
 const fetchProducts = async () => {
   loading.value = true;
+  
+  // Минимальная задержка для демонстрации skeleton loaders
+  const minLoadingTime = 500; // 500ms
+  const startTime = Date.now();
+  
   try {
     const url = '/products/search';
     const params = new URLSearchParams();
@@ -263,6 +267,14 @@ const fetchProducts = async () => {
       color: 'error',
     });
   } finally {
+    // Гарантируем минимальное время показа skeleton loaders
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+    
+    if (remainingTime > 0) {
+      await new Promise(resolve => setTimeout(resolve, remainingTime));
+    }
+    
     loading.value = false;
   }
 };
