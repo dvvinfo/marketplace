@@ -5,8 +5,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AddressModule } from './address/address.module';
+import { FavoritesModule } from './favorites/favorites.module';
 import { User } from './user/user.entity';
 import { Address } from './address/address.entity';
+import { Favorite } from './favorites/favorite.entity';
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { Address } from './address/address.entity';
         username: configService.get<string>('POSTGRES_USERNAME'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DATABASE'),
-        entities: [User, Address],
+        entities: [User, Address, Favorite],
         synchronize: true,
       }),
     }),
@@ -37,6 +39,7 @@ import { Address } from './address/address.entity';
     UserModule,
     AuthModule,
     AddressModule,
+    FavoritesModule,
   ],
 })
 export class UserServiceModule {}

@@ -58,9 +58,20 @@
 
           <!-- Product Info -->
           <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-            <h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-              {{ product.title }}
-            </h1>
+            <div class="flex justify-between items-start mb-4">
+              <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 flex-1">
+                {{ product.title }}
+              </h1>
+              <!-- Кнопка избранного -->
+              <UButton
+                icon="i-heroicons-heart-solid"
+                :color="isFavorite(product.id) ? 'error' : 'neutral'"
+                variant="ghost"
+                size="xl"
+                @click="toggleFavorite(product.id)"
+                :title="isFavorite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'"
+              />
+            </div>
 
             <!-- Rating -->
             <div v-if="productRating" class="flex items-center gap-3 mb-6">
@@ -141,6 +152,7 @@
 const route = useRoute();
 const { apiFetch } = useApi();
 const cartStore = useCartStore();
+const { loadFavorites, toggleFavorite, isFavorite } = useFavorites();
 const toast = useToast();
 
 const productId = computed(() => Number(route.params.id));
@@ -176,6 +188,9 @@ onMounted(async () => {
   } finally {
     pending.value = false;
   }
+
+  // Загружаем избранное независимо (не блокирует отображение товара)
+  loadFavorites();
 });
 
 // Add to cart handler

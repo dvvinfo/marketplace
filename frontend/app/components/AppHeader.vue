@@ -37,6 +37,20 @@
 
           <template v-if="isAuthenticated">
             <NuxtLink
+              to="/favorites"
+              class="relative text-white hover:text-gray-100 transition-colors"
+              title="Избранное"
+            >
+              <UIcon name="i-heroicons-heart" class="w-6 h-6" />
+              <span
+                v-if="favoritesCount > 0"
+                class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg"
+              >
+                {{ favoritesCount }}
+              </span>
+            </NuxtLink>
+
+            <NuxtLink
               to="/cart"
               class="relative text-white hover:text-gray-100 transition-colors"
             >
@@ -125,6 +139,7 @@
 <script setup lang="ts">
 const { isAuthenticated, user, logout: authLogout, fetchUser } = useAuth();
 const cartStore = useCartStore();
+const { favoritesCount, loadFavorites } = useFavorites();
 const colorMode = useColorMode();
 
 const toggleTheme = () => {
@@ -148,6 +163,7 @@ onMounted(async () => {
     await fetchUser();
     console.log("User after fetch:", user.value);
     cartStore.fetchCart();
+    loadFavorites();
   }
 });
 
@@ -158,6 +174,7 @@ watch(isAuthenticated, async (newVal) => {
     await fetchUser();
     console.log("User after fetch in watch:", user.value);
     cartStore.fetchCart();
+    loadFavorites();
   }
 });
 

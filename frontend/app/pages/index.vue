@@ -35,8 +35,20 @@
         <UCard
           v-for="product in products"
           :key="product.id"
-          class="hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+          class="hover:shadow-xl transition-shadow duration-300 cursor-pointer relative"
         >
+          <!-- Кнопка избранного -->
+          <div class="absolute top-2 -right-1 z-10">
+            <UButton
+              icon="i-heroicons-heart-solid"
+              :color="isFavorite(product.id) ? 'error' : 'neutral'"
+              variant="ghost"
+              size="lg"
+              @click.stop="toggleFavorite(product.id)"
+              :title="isFavorite(product.id) ? 'Удалить из избранного' : 'Добавить в избранное'"
+            />
+          </div>
+
           <template #header>
             <NuxtLink :to="`/products/${product.id}`">
               <div class="relative overflow-hidden rounded-t-lg">
@@ -100,6 +112,7 @@
 <script setup lang="ts">
 const { apiFetch } = useApi();
 const cartStore = useCartStore();
+const { favorites, loadFavorites, toggleFavorite, isFavorite } = useFavorites();
 const toast = useToast();
 
 const products = ref<any[]>([]);
@@ -109,10 +122,6 @@ const addingToCart = ref<Record<number, boolean>>({});
 
 // Загружаем товары и корзину при монтировании компонента (только на клиенте)
 onMounted(async () => {
-  // Минимальная задержка для демонстрации skeleton loaders
-  const minLoadingTime = 500; // 500ms
-  const startTime = Date.now();
-  
   try {
     console.log('Fetching products...');
     const data = await apiFetch<any[]>('/products');
@@ -125,16 +134,11 @@ onMounted(async () => {
     console.error('Failed to fetch products:', err);
     error.value = err as Error;
   } finally {
-    // Гарантируем минимальное время показа skeleton loaders
-    const elapsedTime = Date.now() - startTime;
-    const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-    
-    if (remainingTime > 0) {
-      await new Promise(resolve => setTimeout(resolve, remainingTime));
-    }
-    
     pending.value = false;
   }
+
+  // Загружаем избранное независимо (не блокирует отображение товаров)
+  loadFavorites();
 });
 
 const isInCart = (productId: number) => {

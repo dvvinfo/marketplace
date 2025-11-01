@@ -218,9 +218,6 @@ const formatExpiry = () => {
 const processPayment = async () => {
   processing.value = true;
 
-  // Имитация обработки платежа (2 секунды)
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   // Имитация успешной оплаты (в реальном проекте здесь был бы API запрос)
   const success = Math.random() > 0.1; // 90% успеха
 
